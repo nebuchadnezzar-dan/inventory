@@ -14,5 +14,18 @@ RSpec.describe Order, type: :model do
     it { is_expected.to have_many(:order_items) }
     it { is_expected.to have_many(:products) }
   end
-  # pending "add some examples to (or delete) #{__FILE__}"
+
+  describe 'callbacks' do
+    describe 'before_validation' do
+      describe '#assign_uuid' do
+        it 'assigns a randomly generated uui' do
+          order = build(:order, uuid: nil)
+
+          order.valid?
+
+          expect(order.uuid.present?).to eq(true)
+        end
+      end
+    end
+  end
 end
