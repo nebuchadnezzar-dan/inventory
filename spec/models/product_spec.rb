@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Product, type: :model do
   it { is_expected.to validate_presence_of(:name)}
-  describe "validations" do
+  describe 'validations' do
     subject(:product) {build(:product)}
 
     it { is_expected.to validate_presence_of(:sku)}
@@ -31,11 +31,13 @@ RSpec.describe Product, type: :model do
     # end
 
   end
-  describe 'association' do
+  describe 'associations' do
     subject(:product) { build(:product) }
 
     it { is_expected.to have_many(:stocks) }
     it { is_expected.to have_many(:warehouses) }
+    it { is_expected.to have_many(:order_items) }
+    it { is_expected.to have_many(:orders) }
   end
   # pending "add some examples to (or delete) #{__FILE__}"
 end
