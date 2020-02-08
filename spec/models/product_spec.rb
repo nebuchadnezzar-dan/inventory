@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  it { is_expected.to validate_presence_of(:name)}
+  it { is_expected.to validate_presence_of(:name) }
   describe 'validations' do
-    subject(:product) {build(:product)}
+    subject(:product) { build(:product) }
 
-    it { is_expected.to validate_presence_of(:sku)}
-    it { is_expected.to validate_uniqueness_of(:sku)}
+    it { is_expected.to validate_presence_of(:sku) }
+    it { is_expected.to validate_uniqueness_of(:sku) }
 
     # it 'validates the presence of name' do
     #   # record = build(:product, sku:nil)
@@ -29,7 +29,6 @@ RSpec.describe Product, type: :model do
     #
     #   expect(product.valid?).to eq(false)
     # end
-
   end
   describe 'associations' do
     subject(:product) { build(:product) }
