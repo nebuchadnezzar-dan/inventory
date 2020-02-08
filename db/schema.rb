@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_061405) do
+ActiveRecord::Schema.define(version: 2020_02_08_074642) do
+
+  create_table "orders", force: :cascade do |t|
+    t.string "uuid"
+    t.integer "warehouse_id"
+    t.string "customer_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["warehouse_id"], name: "index_orders_on_warehouse_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "sku"
