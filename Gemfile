@@ -45,10 +45,10 @@ group :development, :test do
   gem 'faker'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'shoulda-matchers'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -65,8 +65,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
-
+  # gem 'chromedriver-helper'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
