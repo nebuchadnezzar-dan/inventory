@@ -5,11 +5,12 @@ RSpec.describe Product, type: :model do
   describe 'validations' do
     subject(:product) { build(:product) }
 
+    it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:sku) }
     it { is_expected.to validate_uniqueness_of(:sku) }
 
     # it 'validates the presence of name' do
-    #   # record = build(:product, sku:nil)
+    #   # record = build(:product,name:nil)
     #   product.name = nil
     #
     #   #if nil is value it won't be valid
