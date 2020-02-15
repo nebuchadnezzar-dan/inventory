@@ -3,17 +3,20 @@
 <table>
   <thead>
     <tr>
-      <td>SKU</td>
-      <td>Name</td>
-      <td>Updated At</td>
+      <th>SKU</th>
+      <th>Name</th>
+      <th>Updated At</th>
     </tr>
   </thead>
   <tbody>
     <% @products.each do |product| %>
-      <tr>
-        <td><%= product.sku %></td>
-        <td><%= product.name %></td>
+      <tr id=<%= "product--#{product.id}" %>>
+        <td id=<%= "product--#{product.id}_sku" %>><%= product.sku %></td>
+        <td id=<%= "product--#{product.id}_name" %> ><%= product.name %></td>
         <td><%= product.updated_at.strftime('%m-%d-%Y') %></td>
+        <td id=<%= "product--#{product.id}_show" %> > <%= link_to 'show', product_path(product)%> </td>
+        <td id=<%= "product--#{product.id}_edit" %> > <%= link_to 'edit', edit_product_path(product)%> </td>
+        <td id=<%= "product--#{product.id}_delete" %> > <%= link_to 'delete', product_path(product), method: :delete, class: 'delete', data: { confirm: 'Are you sure you want to delete it?' } %> </td>
       </tr>
     <% end %>
   </tbody>

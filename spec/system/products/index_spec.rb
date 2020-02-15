@@ -1,0 +1,51 @@
+require 'rails_helper'
+
+RSpec.describe 'Index of all products', type: :system do
+  it 'has table product', :js  do
+    create_list(:product, 4)
+    product = create(:product, sku: 'SKU-001', name: 'Kobes')
+    visit '/products'
+
+    expect(page).to have_a_products_table
+    expect(page).to have_products_with(count: 5)
+    expect(page).to have_table_headers_with(text: 'SKU')
+    expect(page).to have_table_headers_with(text: 'Name')
+    expect(page).to have_table_headers_with(text: 'Updated At')
+    expect(page).to have_column_for('sku', value: 'SKU-001', record: product)
+    expect(page).to have_column_for('name', value: 'Kobes', record: product)
+    expect(page).to have_actions_of('show', path: "/products/#{product.id}", record: product)
+    expect(page).to have_actions_of('edit', path: "/products/#{product.id}/edit", record: product)
+    expect(page).to have_actions_of('delete', path: "/products/#{product.id}", record: product)
+
+    page.find("table tbody tr#product--#{product.id} td#product--#{product.id}_delete").click
+
+    text = page.driver.browser.switch_to.alert.text
+
+    expect(text).to eq('Are you sure you want to delete it?')
+  end
+
+  private
+
+  def have_a_products_table
+    have_css('table')
+  end
+
+  def have_products_with(count:)
+    have_css('table tbody tr', count: count)
+  end
+
+  def have_table_headers_with(text:)
+    have_css('table thead tr th', text: text)
+  end
+
+  def have_column_for(name, value:, record:)
+    have_css("table tbody tr#product--#{record.id} td#product--#{record.id}_#{name}", text: value)
+  end
+
+  def have_actions_of(title, path:, record:)
+    within("table tbody tr#product--#{record.id} td#product--#{record.id}_#{title}") do
+        have_link(title, href: path)
+    end
+  end
+
+end
