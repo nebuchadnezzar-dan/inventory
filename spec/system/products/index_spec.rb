@@ -16,12 +16,25 @@ RSpec.describe 'Index of all products', type: :system do
     expect(page).to have_actions_of('show', path: "/products/#{product.id}", record: product)
     expect(page).to have_actions_of('edit', path: "/products/#{product.id}/edit", record: product)
     expect(page).to have_actions_of('delete', path: "/products/#{product.id}", record: product)
+    expect(page).to have_a_new_products_button
 
-    page.find("table tbody tr#product--#{product.id} td#product--#{product.id}_delete").click
+    page.find("table tbody tr#product--#{product.id} td#product--#{product.id}_actions .delete").click
 
     text = page.driver.browser.switch_to.alert.text
 
-    expect(text).to eq('Are you sure you want to delete it?')
+    expect(text).to eq('Are you sure you want to delete this product?')
+
+  end
+
+  it 'allows to delete a product', :js do
+    product = create(:product, sku: 'SKU-001', name: 'Kobes')
+
+    visit '/products'
+    page.find("table tbody tr#product--#{product.id} td#product--#{product.id}_actions .delete").click
+    page.driver.browser.switch_to.alert.accept
+
+    expect(page).not_to have_column_for('sku', value: 'SKU-001', record: product)
+    expect(page).to have_success_delete_message(product.id)
   end
 
   private
@@ -43,9 +56,17 @@ RSpec.describe 'Index of all products', type: :system do
   end
 
   def have_actions_of(title, path:, record:)
-    within("table tbody tr#product--#{record.id} td#product--#{record.id}_#{title}") do
-        have_link(title, href: path)
+    within("table tbody tr#product--#{record.id} td#product--#{record.id}_actions") do
+      have_link(title, href: path)
     end
+  end
+
+  def have_a_new_products_button
+    have_link('New Product', href: '/products/new')
+  end
+
+  def have_success_delete_message(id)
+    have_text("Successfully deleted product #{id}!")
   end
 
 end

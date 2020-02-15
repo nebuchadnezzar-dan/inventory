@@ -7,7 +7,7 @@ RSpec.describe Product, type: :model do
 
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:sku) }
-    it { is_expected.to validate_uniqueness_of(:sku) }
+    it { is_expected.to validate_uniqueness_of(:sku).case_insensitive }
 
     # it 'validates the presence of name' do
     #   # record = build(:product,name:nil)

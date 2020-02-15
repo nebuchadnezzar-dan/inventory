@@ -1,5 +1,5 @@
 <h1>Products</h1>
-
+<%= link_to 'New Product', new_product_path, class: 'btn btn-primary'%>
 <table>
   <thead>
     <tr>
@@ -14,9 +14,17 @@
         <td id=<%= "product--#{product.id}_sku" %>><%= product.sku %></td>
         <td id=<%= "product--#{product.id}_name" %> ><%= product.name %></td>
         <td><%= product.updated_at.strftime('%m-%d-%Y') %></td>
-        <td id=<%= "product--#{product.id}_show" %> > <%= link_to 'show', product_path(product)%> </td>
-        <td id=<%= "product--#{product.id}_edit" %> > <%= link_to 'edit', edit_product_path(product)%> </td>
-        <td id=<%= "product--#{product.id}_delete" %> > <%= link_to 'delete', product_path(product), method: :delete, class: 'delete', data: { confirm: 'Are you sure you want to delete it?' } %> </td>
+        <td id="product--<%= product.id %>_actions">
+          <%= link_to "show", product_path(product) %>
+          <%= link_to "edit", edit_product_path(product) %>
+          <%= link_to "delete",
+                      product_path(product),
+                      class: "delete",
+                      method: :delete,
+                      data: {
+                        confirm: "Are you sure you want to delete this product?"
+                      } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
