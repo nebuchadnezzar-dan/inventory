@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_action :set_stocks, only: %i[show edit update destroy]
-  before_action :set_dependencies, only: %i[index new edit show]
+  before_action :set_dependencies, only: %i[index new create edit show]
 
   def index
     @stocks = Stock.all
@@ -48,7 +48,7 @@ class StocksController < ApplicationController
   end
 
   def stock_params
-    params.require(:stock).permit(:count)
+    params.require(:stock).permit(:count, :product_id, :warehouse_id)
   end
 
   def set_dependencies
