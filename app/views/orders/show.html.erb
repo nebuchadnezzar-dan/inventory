@@ -8,5 +8,8 @@
     <dt class="col-sm-2">Warehouse</dt>
     <dd class="col-sm-10"><%= "#{@order.warehouse.province}, #{@order.warehouse.city}, #{@order.warehouse.street}" %></dd>
   </dl>
+  <div class="row">
+    <%= link_to 'Back', orders_path, class: 'btn btn-primary' %>
+  </div>
 </div>
 <p><%= @order %></p>

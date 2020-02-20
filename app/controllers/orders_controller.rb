@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-  before_action :set_orders, only: %i[show destroy]
-  before_action :set_dependencies, only: %i[new]
+  before_action :set_orders, only: %i[show destroy edit update]
+  before_action :set_dependencies, only: %i[new edit]
 
   def index
     @orders = Order.all
@@ -20,6 +20,18 @@ class OrdersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def edit; end
+
+  def update
+    respond_to do |format|
+      if @order.update(order_params)
+        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+      else
+        format.html { render :edit }
+      end
+    end   
   end
 
   def destroy
