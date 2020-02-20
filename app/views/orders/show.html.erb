@@ -8,8 +8,35 @@
     <dt class="col-sm-2">Warehouse</dt>
     <dd class="col-sm-10"><%= "#{@order.warehouse.province}, #{@order.warehouse.city}, #{@order.warehouse.street}" %></dd>
   </dl>
-  <div class="row">
-    <%= link_to 'Back', orders_path, class: 'btn btn-primary' %>
-  </div>
 </div>
-<p><%= @order %></p>
+
+<div class="container">
+  <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products %>
+  <hr/>
+
+  <h4>Orders</h4>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">SKU</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |order_item| %>
+        <% next if order_item.new_record? %>
+          <tr>
+            <th scope="row"><%=order_item.product.sku %></th>
+            <td><%=order_item.product.name %></td>
+            <td><%=order_item.quantity %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table> 
+
+  <%= link_to 'Back', orders_path, class: 'btn btn-primary' %> 
+</div>
+
+
+

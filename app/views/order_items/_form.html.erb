@@ -1,0 +1,24 @@
+<%= form_with model: order_item, remote: false, url: order_order_items_path(order) do |f| %>
+  <div class="form-row align-items-center">
+    <%= f.hidden_field :order_id %>
+    <div class="col-sm-3 my-1">
+      <%= f.label :product, class: 'sr-only' %>
+      <%= f.select :product_id,
+                  products.map { |p| [p.name, p.id] }, 
+                  {}, 
+                  class: 'form-control' %>
+    </div>
+    <div class="col-sm-3 my-1">
+      <%= f.label :quantity, class: 'sr-only' %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Qty</div>
+        </div>
+      <%= f.number_field :quantity, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-auto my-1">
+      <%= f.submit 'Add item', class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>

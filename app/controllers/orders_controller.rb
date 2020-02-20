@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_orders, only: %i[show destroy edit update]
-  before_action :set_dependencies, only: %i[new edit]
+  before_action :set_dependencies, only: %i[new edit show]
 
   def index
     @orders = Order.all
@@ -10,7 +10,9 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
-  def show; end
+  def show
+    @order_item = @order.order_items.new
+  end
 
   def create
     @order = Order.new(order_params)
@@ -49,6 +51,7 @@ class OrdersController < ApplicationController
 
   def set_dependencies
     @warehouses = Warehouse.all
+    @products = Product.all
   end
 
   def order_params
