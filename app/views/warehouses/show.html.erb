@@ -1,0 +1,17 @@
+<h1>WELCOME TO Warehouse</h1>
+
+<div class="container">
+  <dl class="row">
+    <dt class="col-sm-2">Street</dt>
+    <dd class="col-sm-10"><%= @warehouse.street %></dd>
+
+    <dt class="col-sm-2">City</dt>
+    <dd class="col-sm-10"><%= @warehouse.city %></dd>
+
+    <dt class="col-sm-2">Province</dt>
+    <dd class="col-sm-10"><%= @warehouse.province %></dd>
+  </dl>
+  <div class="row">
+    <%= link_to 'Back', warehouses_path, class: 'btn btn-primary' %>
+  </div>
+</div>
