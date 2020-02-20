@@ -5,6 +5,7 @@
     <table class="table table-striped text-center">
       <thead class="thead-dark">
         <tr>
+          <th scope="col">#</th>
           <th scope="col">Customer Name</th>
           <th scope="col">Warehouse</th>
           <th scope="col">Action</th>
@@ -13,7 +14,7 @@
       <tbody>
         <% @orders.each do |order| %>
           <tr>
-            <%# <th scope="row">1</th> %>
+            <th scope="row"><%= order.id %></th>
             <td><%= order.customer_name %></td>
             <td><%= order.warehouse.province %></td>
             <td>

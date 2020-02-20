@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_orders, only: %i[show]
+  before_action :set_orders, only: %i[show destroy]
   before_action :set_dependencies, only: %i[new]
 
   def index
@@ -9,6 +9,8 @@ class OrdersController < ApplicationController
   def new
     @order = Order.new
   end
+
+  def show; end
 
   def create
     @order = Order.new(order_params)
@@ -20,11 +22,11 @@ class OrdersController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def destroy
-    
+    @order.destroy
+    respond_to do |format|
+      format.html { redirect_to orders_url, notice: 'Order was successfully deleted.' }
+    end
   end
 
   private 
