@@ -1,0 +1,21 @@
+<h1>WELCOME TO SHOW</h1>
+
+<div class="container">
+  <dl class="row">
+    <dt class="col-sm-2">Product Name</dt>
+    <dd class="col-sm-10"><%= @stock.product.name %></dd>
+
+    <dt class="col-sm-2">Product SKU</dt>
+    <dd class="col-sm-10"><%= @stock.product.sku %></dd>
+
+    <dt class="col-sm-2">Warehouse</dt>
+    <dd class="col-sm-10"><%= @stock.warehouse.full_address %></dd>
+
+    <dt class="col-sm-2">Available Stock</dt>
+    <dd class="col-sm-10"><%= @stock.count %></dd>
+
+  </dl>
+  <div class="row">
+    <%= link_to 'Back', stocks_path, class: 'btn btn-primary' %>
+  </div>
+</div>
