@@ -1,0 +1,18 @@
+<div class="container"> 
+  <h3>Add new order</h3>
+  <%= form_with model: @order, remote: false do |f| %>
+    <div class="form-group">
+      <%= f.label :customer_name %>
+      <%= f.text_field :customer_name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :warehouse %>
+      <%= f.select :warehouse_id, 
+                    @warehouses.map { |w| ["#{w.province}, #{w.city}, #{w.street}", w.id] },
+                    {},
+                    { class: 'form-control' } %>
+    </div>
+    <%= f.submit 'Save Order', class: 'btn btn-success' %>
+  <% end %>
+</div>
