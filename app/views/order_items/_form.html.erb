@@ -1,4 +1,4 @@
-<%= form_with model: order_item, remote: false, url: order_order_items_path(order) do |f| %>
+<%= form_with model: order_item, remote: false, url: form_action do |f| %>
   <div class="form-row align-items-center">
     <%= f.hidden_field :order_id %>
     <div class="col-sm-3 my-1">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="col-auto my-1">
-      <%= f.submit 'Add item', class: 'btn btn-success' %>
+      <%= f.submit 'Save item', class: 'btn btn-success' %>
     </div>
   </div>
 <% end %>
