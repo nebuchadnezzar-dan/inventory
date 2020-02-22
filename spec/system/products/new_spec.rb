@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Allows to create product page', type: :system do
   it 'Allows new to create a new product'  do
+    sign_in_as_user
     visit '/products/new'
 
     within('#product-form') do
@@ -17,6 +18,7 @@ RSpec.describe 'Allows to create product page', type: :system do
   end
 
   it 'shows form errors' do
+    sign_in_as_user
     create(:product, sku: 'PROD-001')
     visit '/products/new'
 

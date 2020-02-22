@@ -1,11 +1,13 @@
-class WarehousesController < ApplicationController
+class WarehousesController < AdminController
   before_action :assign_warehouse, only: %i[show edit update destroy]
 
   def index
     @warehouses = Warehouse.all
   end
     
-  def show; end
+  def show
+    @stock = @warehouse.stocks.build
+  end
 
   def new
     @warehouse = Warehouse.new 
@@ -49,6 +51,5 @@ class WarehousesController < ApplicationController
   def warehouse_params
     params.require(:warehouse).permit(:street, :city, :province)
   end
-
 
 end

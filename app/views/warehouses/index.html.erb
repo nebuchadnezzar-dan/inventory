@@ -14,11 +14,11 @@
         <% @warehouses.each do |warehouse| %>
           <tr>
             <th scope="row"><%= warehouse.id %></th>
-            <td><%= warehouse.full_address %></td>
-            <td>
-              <%= link_to '&#128065;'.html_safe, warehouse_path(warehouse), class: 'btn btn-success' %>
-              <%= link_to '&#9998;'.html_safe, edit_warehouse_path(warehouse), class: 'btn btn-primary' %>
-              <%= link_to '&#128465;'.html_safe, warehouse_path(warehouse), 
+            <td id= <%= "warehouse--#{warehouse.id}__address" %> ><%= warehouse.full_address %></td>
+            <td id= <%= "warehouse--#{warehouse.id}__actions" %>>
+              <%= link_to "\u{1F441}", warehouse_path(warehouse), class: 'btn btn-success' %>
+              <%= link_to "\u{270E}", edit_warehouse_path(warehouse), class: 'btn btn-primary' %>
+              <%= link_to "\u{1F5D1}", warehouse_path(warehouse), 
                                         method: :delete, 
                                         data: { confirm: 'Are you sure?' }, 
                                         class: 'btn btn-danger' %>

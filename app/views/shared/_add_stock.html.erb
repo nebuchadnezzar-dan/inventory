@@ -1,0 +1,15 @@
+<%= form_with model: stock, local: true, id: "stock_form", class: "form-inline", url: warehouse_stocks_path(warehouse) do |f| %>
+  <div class="form-group">
+    <%= f.label :product %>
+    <%= f.select :product_id,
+                 products.map { |p| [p.name, p.id] },
+                 {},
+                 { class: "form-control" } %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :Count %>
+    <%= f.text_field :count, class: "form-control" %>
+  </div>
+  <%= f.submit "Add Stock", class: "btn btn-success" %>
+<% end %>

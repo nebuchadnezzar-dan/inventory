@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Index of all products', type: :system do
   it 'has table product', :js  do
+    sign_in_as_user
     create_list(:product, 4)
     product = create(:product, sku: 'SKU-001', name: 'Kobes')
+
+
     visit '/products'
 
     expect(page).to have_a_products_table
@@ -27,6 +30,8 @@ RSpec.describe 'Index of all products', type: :system do
   end
 
   it 'allows to delete a product', :js do
+    sign_in_as_user
+
     product = create(:product, sku: 'SKU-001', name: 'Kobes')
 
     visit '/products'

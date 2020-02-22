@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Edit product page', type: :system do
   it 'allows to edit a product' do
+    sign_in_as_user
     product = create(:product, name: 'Haier', sku: 'HTV-32-LED')
 
     visit "/products/#{product.id}/edit"
@@ -22,6 +23,7 @@ RSpec.describe 'Edit product page', type: :system do
   end
 
   it 'shows form errors' do
+    sign_in_as_user
     create(:product, sku: 'PROD-001')
     product = create(:product)
 

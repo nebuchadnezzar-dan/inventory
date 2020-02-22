@@ -16,3 +16,21 @@
     </tr>
   </tbody>
 </table>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Warehouse</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @product.warehouses.each do |warehouse| %>
+        <tr>
+          <td><%= warehouse.full_address %> </td>
+          <td><%= warehouse.stock_count(@product) %> </td>
+        </tr>
+      <%end%>
+    </tbody>
+
+  </table>

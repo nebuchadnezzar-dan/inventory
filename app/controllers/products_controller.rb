@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class ProductsController < AdminController
   before_action :assign_product, only: %i[edit show update destroy]
   def index
     @products = Product.all

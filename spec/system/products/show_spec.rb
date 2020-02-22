@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Show the product page', type: :system do
   it 'shows all product information'  do
+    sign_in_as_user
     product = create(:product, sku: 'CAS-012', name: 'Casio Watch')
     visit "/products/#{product.id}"
 

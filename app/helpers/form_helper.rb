@@ -15,7 +15,7 @@ module FormHelper
 
     def render_errors(record, attr)
         errors = record.errors[attr].map do |error|
-        content_tag(:div, error.upcase, class: 'error')
+        content_tag(:div, error, class: 'error')
         end
 
         safe_join(errors)

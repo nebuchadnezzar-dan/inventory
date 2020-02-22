@@ -4,11 +4,14 @@ class OrderItemsController < ApplicationController
   before_action :set_dependencies, only: %i[edit]
 
   def create
-    @order_item = @order.order_items.new(order_items_params)
-
-    if @order_item.save
-      redirect_to order_path(@order)
+    @order_item = @order.order_items.find_or_initialize_by(product_id: order_item_params[:product_id].to_i)
+    if @order_item.new_record?
+      @order_item.quantity = order_item_params[:quantity].to_i
+    else
+      @order_item.quantity += order_item_params[:quantity].to_i
     end
+    @order_item.save!
+    redirect_to order_path(@order)
   end
 
   def edit;  end
@@ -40,8 +43,8 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.find(params[:id])
   end
 
-  def order_items_params
-    params.require(:order_item).permit(:order_id, :product_id, :quantity)
+  def order_item_params
+    params.require(:order_item).permit(:product_id, :quantity)
   end
 
   def set_dependencies

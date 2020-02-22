@@ -15,3 +15,32 @@
     <%= link_to 'Back', warehouses_path, class: 'btn btn-primary' %>
   </div>
 </div>
+
+<%# <%= render 'shared/add_stock',
+            stock: @stock,
+            warehouse: @warehouse,
+            products: @products %>
+<%# <%= render 'shared/add_stock', stock: @stocks, products: @products, form_action: warehouse_stocks_path(@warehouse)            %>
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @warehouse.products.each do |product| %>
+        <tr>
+          <td><%= product.name %> </td>
+          <td><%= @warehouse.inventory_count(product) %> </td>
+          <td>
+            <%= render 'stocks/form', stock: @stock, warehouse: @warehouse, product: product.id%>      
+          </td>
+        </tr>
+      <%end%>
+    </tbody>
+
+  </table>
