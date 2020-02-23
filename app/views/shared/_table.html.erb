@@ -1,23 +1,26 @@
   <table class="table table-striped text-center">
     <thead class="thead-dark">
       <tr>
-        <th>SKU</th>
-        <th>Name</th>
+        <th scope="col">#</th>
+        <% headers.each do |header| %>
+          <th><%= header %></th>
+        <% end %>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% records.each do |record| %>
         <tr id=<%= "#{title}--#{record.id}" %>>
-          <% map_over_records(record).each do |key, value| %>
+          <th scope="row"><%= record.id %></th>
+          <% map_over_records(record, title).each do |key, value| %>
             <td id=<%= "#{title}--#{record.id}_#{key}" %>><%= value %></td>           
           <% end %>
           <td id=<%= "#{title}--#{record.id}_actions" %>>
-            <%= link_to "show", "#{route}/#{record.id}" %>
-            <%= link_to "edit", "#{route}/#{record.id}/edit" %>
-            <%= link_to "delete",
+            <%= link_to "\u{1F441}", "#{route}/#{record.id}", class: 'btn btn-success' %>
+            <%= link_to "\u{270E}", "#{route}/#{record.id}/edit", class: 'btn btn-primary' %>
+            <%= link_to "\u{1F5D1}",
                         "#{route}/#{record.id}",
-                        class: "delete",
+                        class: 'btn btn-danger',
                         method: :delete,
                         data: {
                           confirm: "Are you sure you want to delete this #{title}?"
