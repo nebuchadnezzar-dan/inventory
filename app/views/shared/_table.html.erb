@@ -1,0 +1,29 @@
+  <table class="table table-striped text-center">
+    <thead class="thead-dark">
+      <tr>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% records.each do |record| %>
+        <tr id=<%= "#{title}--#{record.id}" %>>
+          <% map_over_records(record).each do |key, value| %>
+            <td id=<%= "#{title}--#{record.id}_#{key}" %>><%= value %></td>           
+          <% end %>
+          <td id=<%= "#{title}--#{record.id}_actions" %>>
+            <%= link_to "show", "#{route}/#{record.id}" %>
+            <%= link_to "edit", "#{route}/#{record.id}/edit" %>
+            <%= link_to "delete",
+                        "#{route}/#{record.id}",
+                        class: "delete",
+                        method: :delete,
+                        data: {
+                          confirm: "Are you sure you want to delete this #{title}?"
+                        } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
