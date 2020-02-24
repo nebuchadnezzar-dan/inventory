@@ -6,7 +6,8 @@ class WarehousesController < AdminController
   end
     
   def show
-    @stock = @warehouse.stocks.build
+    @stock = @warehouse.stocks.new
+    @products = Product.all
   end
 
   def new
