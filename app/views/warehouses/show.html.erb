@@ -24,9 +24,9 @@
   </div>
 
   <div class="row">
-    <table class="table">
-      <thead>
-        <tr>
+    <table class="table table-sm table-light text-center table-striped table-borderless">
+      <thead class="text-white">
+        <tr class="bg-primary">
           <th>Product</th>
           <th>Quantity</th>
           <th>Action</th>
@@ -38,7 +38,11 @@
             <td><%= product.name %> </td>
             <td><%= @warehouse.inventory_count(product) %> </td>
             <td>
-              <%= render 'stocks/form', stock: @stock, warehouse: @warehouse, product: product.id%>      
+              <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                  <%= render 'stocks/form', stock: @stock, warehouse: @warehouse, product: product.id%> 
+                </div>
+              </div>
             </td>
           </tr>
         <%end%>

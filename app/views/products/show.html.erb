@@ -1,37 +1,37 @@
 <h1>Product</h1>
 <hr />
-<table class="table">
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td id="product--<%= @product.id %>_name">
-        <%= @product.name %>
-      </td>
-    </tr>
-    <tr>
-      <td>SKU</td>
-      <td id="product--<%= @product.id %>_sku">
-        <%= @product.sku %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <dl class="row">
+    <dt class="col-sm-2">Name</dt>
+    <dd class="col-sm-10" id="product--<%= @product.id %>_name">
+      <%= @product.name %>
+    </dd>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Warehouse</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @product.warehouses.each do |warehouse| %>
-      <tr>
-        <td><%= warehouse.full_address %> </td>
-        <td><%= warehouse.stock_count(@product) %> </td>
-      </tr>
-    <%end%>
-  </tbody>
-</table>
-
-<%= link_to 'Back', products_path, class: 'btn btn-primary' %>
+    <dt class="col-sm-2">SKU</dt>
+    <dd class="col-sm-10" id="product--<%= @product.id %>_sku">
+      <%= @product.sku %>
+    </dd>
+  </dl>
+  
+  <div class="row">
+    <table class="table table-sm table-light text-center table-striped table-borderless">
+      <thead class="text-white">
+        <tr class="bg-success">
+          <th>Warehouse</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @product.warehouses.each do |warehouse| %>
+          <tr>
+            <td><%= warehouse.full_address %> </td>
+            <td><%= warehouse.stock_count(@product) %> </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>    
+  </div>
+  <div class="row">
+    <%= link_to 'Back', products_path, class: 'btn btn-success' %>
+  </div>
+</div>
