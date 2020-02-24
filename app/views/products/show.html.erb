@@ -17,20 +17,21 @@
   </tbody>
 </table>
 
-  <table class="table">
-    <thead>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Warehouse</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @product.warehouses.each do |warehouse| %>
       <tr>
-        <th>Warehouse</th>
-        <th>Count</th>
+        <td><%= warehouse.full_address %> </td>
+        <td><%= warehouse.stock_count(@product) %> </td>
       </tr>
-    </thead>
-    <tbody>
-      <% @product.warehouses.each do |warehouse| %>
-        <tr>
-          <td><%= warehouse.full_address %> </td>
-          <td><%= warehouse.stock_count(@product) %> </td>
-        </tr>
-      <%end%>
-    </tbody>
+    <%end%>
+  </tbody>
+</table>
 
-  </table>
+<%= link_to 'Back', products_path, class: 'btn btn-primary' %>

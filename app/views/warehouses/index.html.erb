@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-  <%=  render 'shared/table', headers: %w[Street City Province], records: @warehouses, title: 'warehouse', route: '/warehouses', color: 'primary' %> 
+  <%=  render 'shared/table', headers: %w[Street City Province], records: @warehouses, title: 'warehouse', route: ->(id) { warehouse_path(id) }, edit_route: ->(id) { edit_warehouse_path(id) }, color: 'primary' %> 
   </div>
 
   <div class="row">

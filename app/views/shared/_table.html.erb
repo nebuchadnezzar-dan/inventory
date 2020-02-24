@@ -16,10 +16,10 @@
             <td id=<%= "#{title}--#{record.id}_#{key}" %>><%= value %></td>           
           <% end %>
           <td id=<%= "#{title}--#{record.id}_actions" %>>
-            <%= link_to "\u{1F441}", "#{route}/#{record.id}", class: 'btn btn-success' %>
-            <%= link_to "\u{270E}", "#{route}/#{record.id}/edit", class: 'btn btn-primary' %>
+            <%= link_to "\u{1F441}", route.call(record), class: 'btn btn-success' %>
+            <%= link_to "\u{270E}", edit_route.call(record), class: 'btn btn-primary' %>
             <%= link_to "\u{1F5D1}",
-                        "#{route}/#{record.id}",
+                        route.call(record),
                         class: 'btn btn-danger',
                         method: :delete,
                         data: {
