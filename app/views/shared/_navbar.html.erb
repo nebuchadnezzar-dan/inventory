@@ -24,3 +24,13 @@
     </span>
   </div>
 </nav>
+
+<% if current_user %>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <% breadcrumbs(request.path).each do |list| %>
+      <%= list %>
+    <% end %>
+  </ol>
+</nav>
+<% end %>
