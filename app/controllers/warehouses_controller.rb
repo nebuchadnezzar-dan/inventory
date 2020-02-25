@@ -39,7 +39,7 @@ class WarehousesController < AdminController
   def destroy
     @warehouse.destroy
     respond_to do |format|
-      format.html { redirect_to warehouses_url, notice: 'Warehouse was successfully deleted.' }
+      format.html { redirect_to warehouses_url, notice: "Warehouse #{@warehouse.id} was successfully deleted." }
     end    
   end
 
