@@ -11,4 +11,4 @@ window.$ = jquery;
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
-ReactRailsUJS.detectEvents();
+// ReactRailsUJS.detectEvents();

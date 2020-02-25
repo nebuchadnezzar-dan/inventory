@@ -5,30 +5,22 @@
   </button>
   <div class="collapse navbar-collapse justify-content-space-between" id="navbar-content">
     <ul class="navbar-nav mr-auto">
-      <%# <li class="nav-item active"> %>
-        <%# <%= link_to 'Products', products_path, class: 'nav-link'%>
-        <%# <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> %>
-      <%# </li> %>
       <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= link_to 'Products', products_path, class: 'nav-link'%>
-        </li>  
-        <li class="nav-item">
-          <%= link_to 'Warehouses', warehouses_path, class: 'nav-link'%>
-        </li>            
-        <li class="nav-item">
-          <%= link_to 'Orders', orders_path, class: 'nav-link'%>
-        </li>
+        <% items.each do |key, value| %>
+          <li class= <%= "nav-item" %> >
+            <%= link_to "#{key}", value, class: "nav-link #{'active' if request.url.include? key.to_s.downcase}"%>
+          </li>
+        <%end%>
       <% end %> 
     </ul>
-    <div class="text-white">
+    <span class="navbar-text">
       <% if current_user %>
-        Hi, <%= current_user.email %>!
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete%>
+      Hi, <%= current_user.email %>!
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'custom-nav-right'%>
       <% else %>
-        <%= link_to 'Register', new_user_registration_path %>
-        <%= link_to 'Login', new_user_session_path %>
-      <% end %>      
-    </div>
+        <%= link_to 'Register', new_user_registration_path, class: 'custom-nav-right' %>
+        <%= link_to 'Login', new_user_session_path, class: 'custom-nav-right' %>
+      <% end %> 
+    </span>
   </div>
 </nav>

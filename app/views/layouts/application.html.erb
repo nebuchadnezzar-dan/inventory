@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <%= render 'shared/navbar' %>
+    <%= render 'shared/navbar', items: {Products: products_path, Warehouses: warehouses_path, Orders: orders_path} %>
     <%= render 'shared/flash' %>
     <%= yield %>
   </body>
