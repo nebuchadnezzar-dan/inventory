@@ -39,7 +39,7 @@ class OrdersController < AdminController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully deleted.' }
+      format.html { redirect_to orders_url, notice: "Order #{@order.id} was successfully deleted." }
     end
   end
 
