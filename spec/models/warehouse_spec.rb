@@ -12,8 +12,7 @@ RSpec.describe Warehouse, type: :model do
     subject(:warehouse) { build(:warehouse) }
 
     it { is_expected.to have_many(:products) }
-    it { is_expected.to have_many(:stocks) }
+    it { is_expected.to have_many(:stocks).dependent(:destroy) }
     it { is_expected.to have_many(:orders) }
   end
-  # pending "add some examples to (or delete) #{__FILE__}"
 end
