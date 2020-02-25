@@ -1,4 +1,4 @@
-<h1>Products</h1>
+
 <div class="container">
   <div class="row">
     <%=  render 'shared/table', headers: %w[SKU Name], records: @products, title: 'product', route: ->(id) { product_path(id) }, edit_route: ->(id) { edit_product_path(id) }, color: 'success' %>
