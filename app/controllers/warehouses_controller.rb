@@ -20,6 +20,7 @@ class WarehousesController < AdminController
     @warehouse = Warehouse.new(warehouse_params)
 
     if @warehouse.save
+      flash.notice = 'Successfully created a warehouse!'
       redirect_to warehouse_path(@warehouse)
     else
       render :new

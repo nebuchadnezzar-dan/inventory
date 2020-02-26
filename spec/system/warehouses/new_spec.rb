@@ -44,7 +44,7 @@ RSpec.describe 'Create new warehouse', type: :system do
   end
 
   def have_a_success_message
-    have_text('Successfully created a warehouse')
+    have_text('Successfully created a warehouse!')
   end
 
   def show_error_for(name, message:)

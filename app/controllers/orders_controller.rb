@@ -1,6 +1,6 @@
 class OrdersController < AdminController
   before_action :set_orders, only: %i[show destroy edit update]
-  before_action :set_dependencies, only: %i[new edit show update]
+  before_action :set_dependencies, only: %i[new edit show update create]
 
   def index
     @orders = Order.all
@@ -18,6 +18,7 @@ class OrdersController < AdminController
     @order = Order.new(order_params)
 
     if @order.save
+      flash.notice = 'Successfully created an order!'
       redirect_to order_path(@order)
     else
       render :new
