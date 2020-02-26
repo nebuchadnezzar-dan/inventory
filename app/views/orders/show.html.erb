@@ -2,10 +2,10 @@
 <div class="container">
   <dl class="row">
     <dt class="col-sm-2">Name</dt>
-    <dd class="col-sm-10"><%= @order.customer_name %></dd>
+    <dd class="col-sm-10" id=<%= "order--#{@order.id}_customer_name" %> ><%= @order.customer_name %></dd>
 
     <dt class="col-sm-2">Warehouse</dt>
-    <dd class="col-sm-10"><%= "#{@order.warehouse.province}, #{@order.warehouse.city}, #{@order.warehouse.street}" %></dd>
+    <dd class="col-sm-10" id=<%= "order--#{@order.id}_full_address" %> ><%= "#{@order.warehouse.full_address}" %></dd>
   </dl>
 </div>
 

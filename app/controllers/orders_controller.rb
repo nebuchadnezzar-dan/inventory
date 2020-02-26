@@ -1,6 +1,6 @@
 class OrdersController < AdminController
   before_action :set_orders, only: %i[show destroy edit update]
-  before_action :set_dependencies, only: %i[new edit show]
+  before_action :set_dependencies, only: %i[new edit show update]
 
   def index
     @orders = Order.all
