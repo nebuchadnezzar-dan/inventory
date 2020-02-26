@@ -9,7 +9,7 @@ const HelloWorld = () => {
   return (
     <>
       <Button onClick = {() => setShow(!show)} color='danger'>Toggle the greeting</Button>
-  {show && <h1>{greeting}</h1>}
+        {show && <h1>{greeting}</h1>}
       <input onChange={(e)=> setGreeting(e.target.value)} className="form-control" value={greeting}/>
     </>
   )
