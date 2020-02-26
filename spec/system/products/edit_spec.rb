@@ -20,6 +20,7 @@ RSpec.describe 'Edit product page', type: :system do
     expect(page).to have_attribute_of('name', value: 'Sony', record: product)
     expect(page).to have_attribute_of('sku', value: 'SNY-65-LED', record: product)
     expect(page).to have_a_success_message
+    expect(page).to have_back_button
   end
 
   it 'shows form errors' do
@@ -67,5 +68,9 @@ RSpec.describe 'Edit product page', type: :system do
 
   def show_error_for(name, message:)
     have_css("#product_#{name}_errors .error", text: message)
+  end
+
+  def have_back_button
+    have_link('Back', href: '/products')
   end
 end
