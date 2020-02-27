@@ -23,19 +23,3 @@ class Warehouse < ApplicationRecord
   end
 
 end
-
-test distinct products
-
-# "#products" dp
-
-# it "distinct" do
-
-# //setup create(:warehouse)
-# create(:product)
-
-# create_list(:stock, 2, warehouse: warehouse, product: product)
-# warehouse.reload
-
-# product_count = warehouse.products.where(id: product.id).size
-
-# expect(product_size).to eq(1)
