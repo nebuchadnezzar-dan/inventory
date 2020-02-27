@@ -23,8 +23,8 @@
       <tbody>
         <% @product.warehouses.each do |warehouse| %>
           <tr>
-            <td><%= warehouse.full_address %> </td>
-            <td><%= warehouse.stock_count(@product) %> </td>
+            <td id=<%= "product--#{warehouse.id}_full_address" %> ><%= warehouse.full_address %> </td>
+            <td id=<%= "product--#{warehouse.id}_stock_count" %> ><%= warehouse.stock_count(@product) %> </td>
           </tr>
         <%end%>
       </tbody>
