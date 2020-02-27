@@ -5,6 +5,7 @@
   
   <div class="form-group">
     <%= f.number_field :count, class: "form-control form-control-sm", id: "stock_count--#{product}" %>
+    <%= render_error(stock, :count) %>
   </div>
-  <%= f.submit "+", class: "btn btn-success btn-sm" %>
+  <%= f.submit "+", class: "btn btn-success btn-sm", id: "stock_submit--#{product}" %>
 <% end %>    

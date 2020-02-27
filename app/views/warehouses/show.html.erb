@@ -34,8 +34,8 @@
       <tbody>
         <% @products.each do |product| %>
           <tr>
-            <td><%= product.name %> </td>
-            <td><%= @warehouse.inventory_count(product) %> </td>
+            <td id=<%= "warehouse--#{product.id}_product_name" %> ><%= product.name %> </td>
+            <td id=<%= "warehouse--#{@warehouse.id}_inventory_count" %> ><%= @warehouse.inventory_count(product) %> </td>
             <td>
               <div class="row">
                 <div class="col-lg-8 offset-lg-2">
