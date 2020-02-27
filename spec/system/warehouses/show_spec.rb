@@ -17,7 +17,7 @@ RSpec.describe 'Show the warehouse page', type: :system do
   end
 
   describe 'Create new Stock' do
-    it 'Allows to create and add new warehouse' do
+    it 'Allows to create and add new stock' do
       sign_in_as_user
       product = create(:product, sku: 'CAS-012', name: 'Casio Watch')
       warehouse = create(:warehouse, city: 'City', province: 'Province', street: 'Street')
@@ -26,7 +26,9 @@ RSpec.describe 'Show the warehouse page', type: :system do
       fill_in_stock_field('count', with: 3, associated: product)
       submit_form(record: product)
 
-      expect(page).to have_attribute_of('product_name', record: product, value: product.name)
+      stocks = Stock.where(product: product, warehouse: warehouse)
+
+      expect(page).to have_attribute_of('product_name', record: stocks.first.product, value: 'Casio Watch')
       expect(page).to have_attribute_of('inventory_count', record: warehouse, value: warehouse.inventory_count(product))
       have_a_success_message
     end
@@ -44,11 +46,11 @@ RSpec.describe 'Show the warehouse page', type: :system do
   end
 
   def fill_in_stock_field(name, with:, associated:)
-    page.find("#stock_#{name}--#{associated.id}")
+    page.find("#stock_#{name}--#{associated.id}").fill_in(with: with)
   end
 
   def submit_form(record:)
-    page.find("#stock_submit--#{record.id}")
+    page.find("#stock_submit--#{record.id}").click
   end
 
 end
