@@ -4,7 +4,7 @@ class Warehouse < ApplicationRecord
   has_many :orders
 
   validates :city, presence: true
-  validates :province, presence: true 
+  validates :province, presence: true
 
   def full_address
     "#{street}, #{city}, #{province}"
@@ -21,5 +21,4 @@ class Warehouse < ApplicationRecord
   def inventory_count(product)
     stock_count(product) - order_quantity(product)
   end
-
 end

@@ -25,8 +25,19 @@ Warehouse.create!([
     province: 'Manila'
   }
 ])
-Stock.create!(
-  product: Product.all.sample,
-  warehouse: Warehouse.all.sample,
-  count: 10
-)
+
+product = Product.first
+warehouse = Warehouse.first
+
+Stock.create!([
+  {
+    product: product,
+    warehouse: warehouse,
+    count: 10
+  },
+  {
+    product: product,
+    warehouse: warehouse,
+    count: 5
+  }
+])
