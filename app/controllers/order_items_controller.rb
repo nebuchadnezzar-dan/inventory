@@ -10,11 +10,22 @@ class OrderItemsController < ApplicationController
     else
       @order_item.quantity += order_item_params[:quantity].to_i
     end
-    @order_item.save!
-    redirect_to order_path(@order)
+
+    if @order_item.save!
+      render json: @order_item.as_json(
+        only: %i[id quantity],
+        include: {
+          product: {
+            only: %i[sku name]
+          }
+        }
+      )
+    else
+      render json: { errors: @order_item.errors }, status: :unprocessable_entity
+    end
   end
 
-  def edit;  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -23,14 +34,13 @@ class OrderItemsController < ApplicationController
       else
         format.html { render :edit }
       end
-    end      
+    end
   end
 
-  def destroy 
+  def destroy
     @order_item.destroy
-    respond_to do |format|
-      format.html { redirect_to order_path(@order), notice: 'Order Item was successfully deleted.' }
-    end    
+
+    render json: { id: @order_item.id }
   end
 
   private
@@ -50,5 +60,4 @@ class OrderItemsController < ApplicationController
   def set_dependencies
     @products = Product.all
   end
-
 end

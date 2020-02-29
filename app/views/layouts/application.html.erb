@@ -11,19 +11,9 @@
 
   <body>
     <%= render 'shared/navbar', items: {Products: products_path, Warehouses: warehouses_path, Orders: orders_path} %>
+
     <%= render 'shared/flash' %>
 
-    <%= react_component "HelloWorld" %>
-    <%= react_component "Calculator", {
-          title: "This is my calculator",
-          first_value: 4,
-          second_value: 5,
-          operator: "-"
-        } %>
-
     <%= yield %>
-
-    <%= asset_pack_path("media/images/image.jpeg") %>
-    <%= image_pack_tag("media/images/image.jpeg") %>
   </body>
 </html>

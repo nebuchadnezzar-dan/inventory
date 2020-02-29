@@ -12,6 +12,11 @@ class OrdersController < AdminController
 
   def show
     @order_item = @order.order_items.new
+
+    respond_to do |format|
+      format.json { render json: @order }
+      format.html
+    end
   end
 
   def create
@@ -34,7 +39,7 @@ class OrdersController < AdminController
       else
         format.html { render :edit }
       end
-    end   
+    end
   end
 
   def destroy
@@ -44,7 +49,7 @@ class OrdersController < AdminController
     end
   end
 
-  private 
+  private
 
   def set_orders
     @order = Order.find(params[:id])
@@ -58,5 +63,4 @@ class OrdersController < AdminController
   def order_params
     params.require(:order).permit(:warehouse_id, :customer_name)
   end
-
 end
