@@ -10,8 +10,21 @@ class OrderItemsController < ApplicationController
     else
       @order_item.quantity += order_item_params[:quantity].to_i
     end
-    @order_item.save!
-    redirect_to order_path(@order)
+    respond_to do |format|
+      if @order_item.save
+        format.html { redirect_to order_path(@order) }
+        format.json { render json: { 
+          order_items: @order.order_items.as_json(
+            only: %i[id quantity],
+            include: {
+              product: {
+                only: %i[sku name]
+              }
+            }
+          ) } }
+      end
+    end
+    # @order_item.save!
   end
 
   def edit;  end

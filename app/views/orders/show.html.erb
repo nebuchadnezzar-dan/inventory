@@ -22,6 +22,9 @@
               only: %i[sku name]
             }
           }
+        ),
+        products: @products.as_json(
+          only: %i[id name]
         )
       } %>
   <h4>Orders</h4>
