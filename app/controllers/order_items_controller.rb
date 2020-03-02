@@ -30,6 +30,8 @@ class OrderItemsController < ApplicationController
     @order_item.destroy
     respond_to do |format|
       format.html { redirect_to order_path(@order), notice: 'Order Item was successfully deleted.' }
+      format.json { render json: { id: @order_item.id } }
+      # render json: { id: @order_item.id }
     end    
   end
 

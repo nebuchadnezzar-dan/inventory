@@ -6,12 +6,13 @@ const Button = ({onClick, children ,color}) => <button type="button" className={
 
 
 Button.defaultProps = {
-  color: 'primary'
+  color: 'primary',
+  onClick: () => {}
 }
 
 Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.number]).isRequired,
   // already has defaultProps 
   color: PropTypes.string
 }
