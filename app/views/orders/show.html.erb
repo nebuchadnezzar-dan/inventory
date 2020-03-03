@@ -10,7 +10,7 @@
 </div>
 
 <div class="container">
-  <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products, form_action: order_order_items_path(@order) %>
+  <!-- <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products, form_action: order_order_items_path(@order) %> -->
   <hr/>
   <%= react_component "Order",
       {
@@ -28,7 +28,7 @@
         )
       } %>
   <h4>Orders</h4>
-  <table class="table table-sm table table-light table-striped table-borderless">
+  <!-- <table class="table table-sm table table-light table-striped table-borderless">
     <thead class="text-white">
       <tr class="bg-danger">
         <th scope="col">SKU</th>
@@ -54,7 +54,7 @@
           </tr>
       <% end %>
     </tbody>
-  </table> 
+  </table>  -->
 
   <%= link_to 'Back', orders_path, class: 'btn btn-danger' %> 
 </div>

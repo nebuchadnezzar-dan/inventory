@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { Table, Button, ButtonGroup, Form, InputGroup, FormControl, Col, Spinner } from "react-bootstrap";
 import _ from "lodash";
 import axios from "../config/axios";
+import { confirmAlert } from 'react-confirm-alert'
+
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class Order extends Component {
   constructor(props) {
@@ -19,15 +22,17 @@ class Order extends Component {
   
   deleteOrderItem = async orderItemId => {
     try {
+      this.setState({loading: true})
       let { data, status } = await axios.delete(`/orders/${this.state.id}/order_items/${orderItemId}`);
       if (status === 200) {
         this.setState(({ orderItems }) => ({
-          orderItems: _.filter(
+          orderItems: _.omitBy(
             orderItems,
-            orderItem => !(orderItem.id === data.id)
+            orderItem => orderItem.id === data.id
           ),
           message: "Successfully deleted order item.",
-          variant: "danger"
+          variant: "danger",
+          loading: false
         }));
       }
     } catch (error) {
@@ -51,24 +56,41 @@ class Order extends Component {
       if (status === 200) {
         const newData = _.keyBy(data.order_items, 'id')
         this.setState(({ orderItems }) => ({
-          orderItems: { ...newData },
+          orderItems: {...orderItems, ...newData },
           message: "Successfully created order item.",
           variant: "success",
           loading: false
         }));
-        console.log(this.state.orderItems)
       }
     } catch (error) {
       alert("Can't create order item.");
     }
   };
 
+  onConfirm = (toBePassed) => {
+    confirmAlert({
+      title: 'Confirm to delte',
+      message: 'Are you sure you want to do this?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: this.deleteOrderItem.bind(null, toBePassed)
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    })
+  }
+
+
   render() {
     const tableBody = _.map(
       this.state.orderItems,
         orderItem => orderItem.id && (
             <tr key={orderItem.id}>
-              <td>{orderItem.product.sku}</td>
+              <th scope="row">{orderItem.product.sku}</th>
               <td>{orderItem.product.name}</td>
               <td>{orderItem.quantity}</td>
               <td>
@@ -76,7 +98,7 @@ class Order extends Component {
                   <Button variant="primary">&#9998;</Button>
                   <Button
                     variant="danger"
-                    onClick={this.deleteOrderItem.bind(null, orderItem.id)}
+                    onClick={this.onConfirm.bind(null, orderItem.id)}
                   >
                     &#128465;
                   </Button>
@@ -86,9 +108,8 @@ class Order extends Component {
           )
         )
 
-    const table = this.state.loading ? <Spinner animation="border" /> : 
-    (
-      <Table hover variant="light">
+    const table = (
+      <Table hover variant="light" size="sm">
         <thead className="text-white">
           <tr className="bg-danger">
             <th>SKU</th>
@@ -98,7 +119,7 @@ class Order extends Component {
           </tr>
         </thead>
         <tbody>
-          { tableBody}
+          {this.state.loading ? <tr><td><Spinner animation="border" /></td></tr> : tableBody}
         </tbody>
       </Table>
     )
@@ -136,9 +157,6 @@ class Order extends Component {
           </Form.Group>
         </Form.Row>
       </Form>)
-
-    console.log(this.state.orderItems)
-
     return (
       <>
         {form}
