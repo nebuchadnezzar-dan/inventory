@@ -11,8 +11,7 @@
 
 <div class="container">
   <!-- <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products, form_action: order_order_items_path(@order) %> -->
-  <hr/>
-  <%= react_component "Order",
+  <%= react_component "Order/Order",
       {
         id: @order.id,
         order_items: @order.order_items.as_json(
@@ -27,7 +26,6 @@
           only: %i[id name]
         )
       } %>
-  <h4>Orders</h4>
   <!-- <table class="table table-sm table table-light table-striped table-borderless">
     <thead class="text-white">
       <tr class="bg-danger">

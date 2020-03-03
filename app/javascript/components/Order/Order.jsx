@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Table, Button, ButtonGroup, Form, InputGroup, FormControl, Col, Spinner } from "react-bootstrap";
+import { Table, Button, ButtonGroup, Spinner } from "react-bootstrap";
 import _ from "lodash";
-import axios from "../config/axios";
+import axios from "../../config/axios";
 import { confirmAlert } from 'react-confirm-alert'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
+
+import ProductForm from './ProductForm'
 
 class Order extends Component {
   constructor(props) {
@@ -14,8 +16,6 @@ class Order extends Component {
       orderItems: _.mapKeys(props.orderItems, orderItem => orderItem.id),
       products: props.products,
       id: props.id,
-      quantity: 1,
-      productId: 1,
       loading: false
     };
   }
@@ -40,16 +40,18 @@ class Order extends Component {
     }
   }
 
-  createOrderItem = async e => {
+  createOrderItem = async (quantity, productId, e) => {
     e.preventDefault();
+    // console.log(quantity, productId)
+    // return null
     try {
       this.setState({loading: true})
       let { data, status } = await axios.post(
         `/orders/${this.props.id}/order_items`,
         {
           order_item: {
-            product_id: this.state.productId,
-            quantity: this.state.quantity
+            product_id: +productId,
+            quantity: quantity
           }
         }
       );
@@ -124,42 +126,11 @@ class Order extends Component {
       </Table>
     )
 
-    const form = (
-      <Form onSubmit={this.createOrderItem}>
-        <Form.Row>
-          <Form.Group as={Col}  md="4">
-            <Form.Label className="sr-only">Product</Form.Label>
-              <Form.Control as="select" value={this.state.productId} onChange={e =>{ this.setState({productId: e.target.value })}}>
-                {this.state.products.map(product => <option key={product.id} value={product.id}>{product.name}</option>)}
-              </Form.Control>
-          </Form.Group>
-
-          <Form.Group as={Col} md="4">
-            <Form.Label className="sr-only">Quantity</Form.Label>
-            <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-default">Qty</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              type="number"
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
-              value={this.state.quantity}
-              onChange={e => {this.setState({quantity: e.target.value})}}
-            />
-          </InputGroup>
-          </Form.Group>
-
-          <Form.Group as={Col}  md="4">
-            <Button variant="success" type="submit">
-              Save Item
-            </Button>
-          </Form.Group>
-        </Form.Row>
-      </Form>)
     return (
       <>
-        {form}
+        <ProductForm products={this.props.products} submitForm={this.createOrderItem} />
+        <h4>List of Order Items</h4>
+        <hr/>
         {table}
       </>
     )
@@ -175,12 +146,6 @@ Order.propTypes = {
         name: PropTypes.string,
         sku: PropTypes.string
       })
-    })
-  ),
-  products: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string
     })
   )
 };
