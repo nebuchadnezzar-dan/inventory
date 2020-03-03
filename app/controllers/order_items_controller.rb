@@ -18,7 +18,7 @@ class OrderItemsController < ApplicationController
             only: %i[id quantity],
             include: {
               product: {
-                only: %i[sku name]
+                only: %i[id sku name]
               }
             }
           ) } }
@@ -31,8 +31,17 @@ class OrderItemsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @order_item.update(order_items_params)
+      if @order_item.update(order_item_params)
         format.html { redirect_to order_path(@order), notice: 'Order Item was successfully updated.' }
+        format.json { render json: { 
+          order_items: @order.order_items.as_json(
+            only: %i[id quantity],
+            include: {
+              product: {
+                only: %i[id sku name]
+              }
+            }
+          ) } }
       else
         format.html { render :edit }
       end

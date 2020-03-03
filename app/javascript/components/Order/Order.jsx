@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Table, Button, ButtonGroup, Spinner } from "react-bootstrap";
+import { Table, Button, ButtonGroup, Spinner, Form } from "react-bootstrap";
 import _ from "lodash";
 import axios from "../../config/axios";
 import { confirmAlert } from 'react-confirm-alert'
@@ -8,6 +8,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import ProductForm from './ProductForm'
+import DynamicTable from '../Table/DynamicTable'
 
 class Order extends Component {
   constructor(props) {
@@ -16,7 +17,10 @@ class Order extends Component {
       orderItems: _.mapKeys(props.orderItems, orderItem => orderItem.id),
       products: props.products,
       id: props.id,
-      loading: false
+      loading: false,
+      edit: false,
+      editId: '',
+      editQuantity: 0
     };
   }
   
@@ -42,8 +46,6 @@ class Order extends Component {
 
   createOrderItem = async (quantity, productId, e) => {
     e.preventDefault();
-    // console.log(quantity, productId)
-    // return null
     try {
       this.setState({loading: true})
       let { data, status } = await axios.post(
@@ -69,9 +71,34 @@ class Order extends Component {
     }
   };
 
+  editProductItem = async (orderItemId, productId) => {
+    try {
+      this.setState({loading: true})
+      let { data, status } = await axios.put(
+        `/orders/${this.props.id}/order_items/${orderItemId}`,
+        {
+          order_item: {
+            product_id: +productId,
+            quantity: +this.state.editQuantity
+          }
+        }
+      );
+      if (status === 200) {
+        const newData = _.keyBy(data.order_items, 'id')
+        this.setState(({ orderItems }) => ({
+          orderItems: {...orderItems, ...newData },
+          loading: false,
+          edit: false
+        }));
+      }
+    } catch (error) {
+      alert("Can't edit order item.");
+    }
+  }
+
   onConfirm = (toBePassed) => {
     confirmAlert({
-      title: 'Confirm to delte',
+      title: 'Confirm to delete',
       message: 'Are you sure you want to do this?',
       buttons: [
         {
@@ -86,45 +113,52 @@ class Order extends Component {
     })
   }
 
+  editHandler = (bool, id, qty) => this.setState({edit: bool, editId: id, editQuantity: qty})
+
+  buttonHandler = (id, qty, productId) => (
+    (this.state.edit && +this.state.editId === +id ) ? (
+      <ButtonGroup>
+        <Button variant="danger" size="sm" onClick={this.editHandler.bind(null, false, '')}>&#10006;</Button>
+        <Button
+          variant="success"
+          size="sm"
+          onClick={this.editProductItem.bind(null, id, productId)}
+        >
+          &#10004;
+        </Button>
+      </ButtonGroup>
+    ) : (
+      <ButtonGroup>
+        <Button variant="primary" size="sm" onClick={this.editHandler.bind(null, true, id, qty)}>&#9998;</Button>
+        <Button
+          variant="danger"
+          size="sm"
+          onClick={this.onConfirm.bind(null, id)}
+        >
+          &#128465;
+        </Button>
+      </ButtonGroup>
+    )
+  )
 
   render() {
+
     const tableBody = _.map(
       this.state.orderItems,
         orderItem => orderItem.id && (
             <tr key={orderItem.id}>
               <th scope="row">{orderItem.product.sku}</th>
               <td>{orderItem.product.name}</td>
-              <td>{orderItem.quantity}</td>
-              <td>
-                <ButtonGroup>
-                  <Button variant="primary">&#9998;</Button>
-                  <Button
-                    variant="danger"
-                    onClick={this.onConfirm.bind(null, orderItem.id)}
-                  >
-                    &#128465;
-                  </Button>
-                </ButtonGroup>
-              </td>
+              <td>{(this.state.edit && orderItem.id === this.state.editId) ? <Form.Control type="number" value={this.state.editQuantity} onChange={e=>this.setState({editQuantity: e.target.value})} /> : orderItem.quantity}</td>
+              <td>{this.buttonHandler(orderItem.id, orderItem.quantity, orderItem.product.id)}</td>
             </tr>
           )
         )
 
     const table = (
-      <Table hover variant="light" size="sm">
-        <thead className="text-white">
-          <tr className="bg-danger">
-            <th>SKU</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.loading ? <tr><td><Spinner animation="border" /></td></tr> : tableBody}
-        </tbody>
-      </Table>
-    )
+      <DynamicTable headers={['SKU', 'Product Name', 'Quantity', 'Actions']} hover={true} variant="light" size="sm" headerColor="bg-danger">
+        {this.state.loading ? <tr><td><Spinner animation="border" /></td></tr> : tableBody}
+      </DynamicTable>)
 
     return (
       <>
