@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, ButtonGroup, Spinner, Form, Modal, Badge } from "react-bootstrap";
+import { Button, ButtonGroup, Spinner, Form } from "react-bootstrap";
 import _ from "lodash";
 import axios from "../../config/axios";
 import { confirmAlert } from 'react-confirm-alert'
@@ -9,6 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import ProductForm from './ProductForm'
 import DynamicTable from '../Table/DynamicTable'
+import ModalDisplay from '../ModalDisplay'
 
 class Order extends Component {
   constructor(props) {
@@ -172,19 +173,7 @@ class Order extends Component {
         {this.state.loading ? <tr><td><Spinner animation="border" /></td></tr> : tableBody}
       </DynamicTable>)
 
-    const modal = (
-      <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-      <Modal.Title><h3>{this.state.responseHead === 'success' ? <Badge variant="success">Success</Badge> : <Badge variant="danger">Error</Badge>}</h3></Modal.Title>
-        </Modal.Header>
-      <Modal.Body>{this.state.message}</Modal.Body>
-        <Modal.Footer>
-          <Button variant={this.state.responseHead === 'success' ? 'success' : 'danger'} onClick={this.handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    )
+    const modal = <ModalDisplay show={this.state.show} onHide={this.handleClose} responseHead={this.state.responseHead} message={this.state.message} />
 
     return (
       <>
