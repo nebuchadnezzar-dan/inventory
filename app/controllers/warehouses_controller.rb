@@ -1,5 +1,6 @@
 class WarehousesController < AdminController
-  before_action :assign_warehouse, only: %i[show edit update destroy]
+  before_action :assign_warehouse, only: %i[show edit update destroy search]
+  before_action :product_search, only: %i[show search]
 
   def index
     @warehouses = Warehouse.all
@@ -7,12 +8,7 @@ class WarehousesController < AdminController
     
   def show
     @stock = @warehouse.stocks.new
-    if params[:search].blank?
-      @products = Product.all
-    else
-      @parameter = params[:search].downcase
-      @products = Product.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
-    end
+    # @products = @products_search
   end
 
   def new
@@ -49,6 +45,13 @@ class WarehousesController < AdminController
     end    
   end
 
+  def search
+    respond_to do |format|
+      format.html { redirect_to action: :show, search: params[:search] }
+      format.json { render json: { products: @products } }
+    end
+  end
+
   private
 
   def assign_warehouse
@@ -57,6 +60,16 @@ class WarehousesController < AdminController
   
   def warehouse_params
     params.require(:warehouse).permit(:street, :city, :province)
+  end
+
+  def product_search
+    # @products = Product.all
+    if params[:search].blank?
+      @products = Product.all
+    else
+      @parameter = params[:search].downcase
+      @products = Product.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
+    end
   end
 
 end

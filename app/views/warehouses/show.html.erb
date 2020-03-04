@@ -24,7 +24,7 @@
 
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <%= form_tag(warehouse_path(@warehouse), method: 'get',   
+      <%= form_tag(warehouse_search_path(@warehouse), method: 'get',   
           class: 'navbar-form navbar-left') do %>  
         <div class="input-group">  
           <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
