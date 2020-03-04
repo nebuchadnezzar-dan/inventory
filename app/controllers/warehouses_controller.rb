@@ -7,7 +7,12 @@ class WarehousesController < AdminController
     
   def show
     @stock = @warehouse.stocks.new
-    @products = Product.all
+    if params[:search].blank?
+      @products = Product.all
+    else
+      @parameter = params[:search].downcase
+      @products = Product.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
+    end
   end
 
   def new
