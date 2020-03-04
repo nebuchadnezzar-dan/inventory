@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Table, Button, ButtonGroup, Spinner, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Spinner, Form, Modal, Badge } from "react-bootstrap";
 import _ from "lodash";
 import axios from "../../config/axios";
 import { confirmAlert } from 'react-confirm-alert'
@@ -20,7 +20,10 @@ class Order extends Component {
       loading: false,
       edit: false,
       editId: '',
-      editQuantity: 0
+      editQuantity: 0,
+      show: false,
+      message: '',
+      responseHead: ''
     };
   }
   
@@ -36,11 +39,13 @@ class Order extends Component {
           ),
           message: "Successfully deleted order item.",
           variant: "danger",
-          loading: false
+          loading: false,
+          show: true,
+          responseHead: 'success'
         }));
       }
     } catch (error) {
-      alert("Can't delete item.");
+      this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   }
 
@@ -63,11 +68,13 @@ class Order extends Component {
           orderItems: {...orderItems, ...newData },
           message: "Successfully created order item.",
           variant: "success",
-          loading: false
+          loading: false,
+          show: true,
+          responseHead: 'success'
         }));
       }
     } catch (error) {
-      alert("Can't create order item.");
+      this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   };
 
@@ -88,11 +95,14 @@ class Order extends Component {
         this.setState(({ orderItems }) => ({
           orderItems: {...orderItems, ...newData },
           loading: false,
-          edit: false
+          edit: false,
+          show: true,
+          responseHead: 'success',
+          message: "Successfully updated order item.",
         }));
       }
     } catch (error) {
-      alert("Can't edit order item.");
+      this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   }
 
@@ -141,6 +151,8 @@ class Order extends Component {
     )
   )
 
+  handleClose = () => this.setState({show:false})
+
   render() {
 
     const tableBody = _.map(
@@ -160,12 +172,27 @@ class Order extends Component {
         {this.state.loading ? <tr><td><Spinner animation="border" /></td></tr> : tableBody}
       </DynamicTable>)
 
+    const modal = (
+      <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal.Header closeButton>
+      <Modal.Title><h3>{this.state.responseHead === 'success' ? <Badge variant="success">Success</Badge> : <Badge variant="danger">Error</Badge>}</h3></Modal.Title>
+        </Modal.Header>
+      <Modal.Body>{this.state.message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant={this.state.responseHead === 'success' ? 'success' : 'danger'} onClick={this.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
+
     return (
       <>
         <ProductForm products={this.props.products} submitForm={this.createOrderItem} />
         <h4>List of Order Items</h4>
         <hr/>
         {table}
+        {modal}
       </>
     )
   }
