@@ -37,16 +37,15 @@
   </div>
 
   <hr/>
-
+  <%= react_component 'Warehouse/Warehouse', 
+  {
+    id: @warehouse.id,
+    products: @products.as_json(
+      only: %i[id name]
+    ),
+    counts: @products.map { |product| {id: product.id, count: @warehouse.inventory_count(product)} }
+  } %>
   <div class="row">
-    <%= react_component 'Warehouse/Warehouse', 
-        {
-          id: @warehouse.id,
-          products: @products.as_json(
-            only: %i[id name]
-          ),
-          counts: @products.map { |product| {id: product.id, count: @warehouse.inventory_count(product)} }
-        } %>
     <table class="table table-sm table-light text-center table-striped table-borderless">
       <thead class="text-white">
         <tr class="bg-primary">
