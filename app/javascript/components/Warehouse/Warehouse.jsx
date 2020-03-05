@@ -14,7 +14,9 @@ class Warehouse extends Component {
     this.state = {
       products: _([...this.props.products, ...this.props.counts]).groupBy('id').map((g) => _.mergeWith({}, ...g, (obj, src) => _.isArray(obj) ? obj.concat(src) : undefined)).value(),
       search:'',
-      loading: false
+      loading: false,
+      add: false,
+      addId: -1
     }
   }
 
@@ -42,12 +44,28 @@ class Warehouse extends Component {
     }
   }
 
+  buttonToggler = (bool, id) => this.setState({ add: bool, addId: id })
+
   render(){
     const tableBody = _.map(this.state.products, product => (
       <tr key={product.id}>
         <td>{product.name}</td>
         <td>{product.count}</td>
-        <td>A</td>
+        <td>
+          { this.state.add && this.state.addId === product.id ? (
+            <InputGroup size="sm" className="mb-3">
+              <FormControl
+                type="number"
+                placeholder="0"
+                aria-describedby="basic-addon2"
+              />
+              <InputGroup.Append>
+                <Button variant="success">&#x002B;</Button>
+                <Button variant="danger" onClick={this.buttonToggler.bind(null, false, product.id)}>&#10006;</Button>
+              </InputGroup.Append>
+            </InputGroup>) :
+          ( <Button variant="primary" size="sm" onClick={this.buttonToggler.bind(null, true, product.id)}>	&#x002B; Add Stock</Button> )}        
+        </td>
       </tr>
     ))
 
