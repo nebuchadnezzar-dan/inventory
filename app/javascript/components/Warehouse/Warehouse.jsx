@@ -6,6 +6,7 @@ import { FaSearch } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 
 import DynamicTable from '../Table/DynamicTable'
+import Search from './Search'
 
 class Warehouse extends Component {
   constructor(props){
@@ -42,9 +43,6 @@ class Warehouse extends Component {
   }
 
   render(){
-    // const data = [...this.props.products, ...this.props.counts]
-    // const mapped = _(data).groupBy('id').map((g) => _.mergeWith({}, ...g, (obj, src) => _.isArray(obj) ? obj.concat(src) : undefined)).value();
-    // console.log(mapped)
     const tableBody = _.map(this.state.products, product => (
       <tr key={product.id}>
         <td>{product.name}</td>
@@ -53,25 +51,7 @@ class Warehouse extends Component {
       </tr>
     ))
 
-    const search = (
-      <div className="row">
-        <div className="col-md-8 offset-md-2">
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="basic-addon1"><FaSearch/></InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="basic-addon2"
-              value={this.state.search}
-              onChange={this.searchHandler}
-            />
-          </InputGroup>
-        </div>
-      </div>
-    )
+    const search = <Search search={this.state.search} onChange={this.searchHandler} /> 
 
    return (
     <>
