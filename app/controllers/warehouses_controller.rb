@@ -48,7 +48,11 @@ class WarehousesController < AdminController
   def search
     respond_to do |format|
       format.html { redirect_to action: :show, search: params[:search] }
-      format.json { render json: { products: @products } }
+      format.json { render json: { 
+          products: @products.as_json(
+          only: %i[id name]
+          ),
+          counts: @products.map { |product| {id: product.id, count: @warehouse.inventory_count(product)} } } }
     end
   end
 
