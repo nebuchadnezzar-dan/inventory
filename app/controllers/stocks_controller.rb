@@ -5,9 +5,11 @@ class StocksController < AdminController
 
   def create
     @stock = @warehouse.stocks.new(stock_params)
-
-    if @stock.save
-      redirect_to warehouse_path(@warehouse)
+    respond_to do |format|
+      if @stock.save
+        format.html { redirect_to warehouse_path(@warehouse), notic: 'Stock was successfully added' }
+        format.json { render json: { product: Product.find(params[:stock][:product_id]).as_json(only: %i[id name]), count: Warehouse.find(params[:warehouse_id]).inventory_count(Product.find(params[:stock][:product_id])).as_json } }
+      end
     end
   end
 

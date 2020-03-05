@@ -22,7 +22,7 @@
     </div>
   </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-8 offset-lg-2">
       <%= form_tag(warehouse_search_path(@warehouse), method: 'get',   
           class: 'navbar-form navbar-left') do %>  
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <hr/>
+  <hr/> -->
   <%= react_component 'Warehouse/Warehouse', 
   {
     id: @warehouse.id,
@@ -45,7 +45,7 @@
     ),
     counts: @products.map { |product| {id: product.id, count: @warehouse.inventory_count(product)} }
   } %>
-  <div class="row">
+  <!-- <div class="row">
     <table class="table table-sm table-light text-center table-striped table-borderless">
       <thead class="text-white">
         <tr class="bg-primary">
@@ -70,7 +70,7 @@
         <%end%>
       </tbody>
     </table>
-  </div>  
+  </div>   -->
 
   <div class="row">
     <%= link_to 'Back', warehouses_path, class: 'btn btn-primary' %>
