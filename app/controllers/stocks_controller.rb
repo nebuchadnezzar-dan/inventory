@@ -8,7 +8,7 @@ class StocksController < AdminController
     respond_to do |format|
       if @stock.save
         format.html { redirect_to warehouse_path(@warehouse), notic: 'Stock was successfully added' }
-        format.json { render json: { product: Product.find(params[:stock][:product_id]).as_json(only: %i[id name]), count: Warehouse.find(params[:warehouse_id]).inventory_count(Product.find(params[:stock][:product_id])).as_json } }
+        format.json { render json: { product: @stock.product.as_json(only: %i[id name]), count: @warehouse.inventory_count(@stock.product).as_json } }
       end
     end
   end
