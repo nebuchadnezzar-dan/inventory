@@ -14,7 +14,7 @@ class OrderItemsController < ApplicationController
       if @order_item.save
         format.html { redirect_to order_path(@order) }
         format.json { render json: { 
-          order_items: @order.order_items.as_json(
+          order_items: @order_item.as_json(
             only: %i[id quantity],
             include: {
               product: {
@@ -34,7 +34,7 @@ class OrderItemsController < ApplicationController
       if @order_item.update(order_item_params)
         format.html { redirect_to order_path(@order), notice: 'Order Item was successfully updated.' }
         format.json { render json: { 
-          order_items: @order.order_items.as_json(
+          order_items: @order_item.as_json(
             only: %i[id quantity],
             include: {
               product: {

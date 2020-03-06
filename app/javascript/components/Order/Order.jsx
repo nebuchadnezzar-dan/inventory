@@ -64,9 +64,11 @@ class Order extends Component {
         }
       );
       if (status === 200) {
-        const newData = _.keyBy(data.order_items, 'id')
+        // console.log(this.state.orderItems, {[data.order_items.id]: data.order_items})
+        // return null
+        // const newData = _.keyBy(data.order_items, 'id')
         this.setState(({ orderItems }) => ({
-          orderItems: {...orderItems, ...newData },
+          orderItems: {...orderItems, [data.order_items.id]: data.order_items },
           message: "Successfully created order item.",
           variant: "success",
           loading: false,
@@ -92,9 +94,9 @@ class Order extends Component {
         }
       );
       if (status === 200) {
-        const newData = _.keyBy(data.order_items, 'id')
+        // const newData = _.keyBy(data.order_items, 'id')
         this.setState(({ orderItems }) => ({
-          orderItems: {...orderItems, ...newData },
+          orderItems: {...orderItems, [data.order_items.id]: data.order_items },
           loading: false,
           edit: false,
           show: true,
