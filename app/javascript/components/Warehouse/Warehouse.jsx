@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import _ from 'lodash'
 import axios from '../../config/axios'
 import { FormControl, InputGroup, Button, Spinner } from 'react-bootstrap'
-import { FaSearch } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 
 import DynamicTable from '../Table/DynamicTable'
 import Search from './Search'
+import ModalDisplay from '../ModalDisplay'
 
 const mergeObject = (arr1, arr2) => _.mapKeys(_([...arr1, ...arr2]).groupBy('id').map((g) => _.mergeWith({}, ...g, (obj, src) => _.isArray(obj) ? obj.concat(src) : undefined)).value(), item => item.id)
 
@@ -19,7 +19,10 @@ class Warehouse extends Component {
       loading: false,
       add: false,
       addId: -1,
-      count: 1
+      count: 1,
+      show: false,
+      responseHead: '',
+      message: ''
     }
   }
 
@@ -33,16 +36,13 @@ class Warehouse extends Component {
         const newData = mergeObject(data.products, data.counts)
         this.setState({
           products: newData,
-          message: "Successfully created order item.",
           variant: "success",
           loading: false,
-          show: true,
-          responseHead: 'success'
         });
       }
     } catch (error) {
       console.log(error)
-      // this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
+      this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   }
 
@@ -60,9 +60,11 @@ class Warehouse extends Component {
         }
       );
       if (status === 200) {
-        const newData = { ...data.product, count: data.count }
+        // console.log(data)
+        // return null
+        // const newData = { ...data.product, count: data.count }
         this.setState(({ products }) => ({
-          products: {...products, [newData.id]: newData },
+          products: {...products, [data.product.id]: data.product },
           message: "Successfully created order item.",
           variant: "success",
           loading: false,
@@ -73,11 +75,14 @@ class Warehouse extends Component {
       }
     } catch (error) {
       console.log(error)
-      // this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
+      this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   };
 
   buttonToggler = (bool, id) => this.setState({ add: bool, addId: id })
+
+  handleClose = () => this.setState({show:false})
+
 
   render(){
     const tableBody = _.map(this.state.products, product => (
@@ -105,10 +110,12 @@ class Warehouse extends Component {
     ))
 
     const search = <Search search={this.state.search} onChange={this.searchHandler} /> 
+    const modal = <ModalDisplay show={this.state.show} onHide={this.handleClose} responseHead={this.state.responseHead} message={this.state.message} />
 
    return (
     <>
       {search}
+      {modal}
       <h4>List of Products</h4>
       <hr/>
       <DynamicTable headers={['Product', 'Quantity', 'Actions']} hover={true} variant="light" size="sm" headerColor="bg-primary">
