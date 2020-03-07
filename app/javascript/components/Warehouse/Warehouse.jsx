@@ -133,7 +133,9 @@ Warehouse.propTypes = {
     })
   ),
   loading: PropTypes.bool,
-  search: PropTypes.string
+  search: PropTypes.string,
+  addId: PropTypes.number,
+  count: PropTypes.number
 }
 
 export default Warehouse

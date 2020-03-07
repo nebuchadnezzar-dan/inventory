@@ -20,7 +20,7 @@ class Order extends Component {
       id: props.id,
       loading: false,
       edit: false,
-      editId: '',
+      editId: -1,
       editQuantity: 0,
       show: false,
       message: '',
@@ -199,6 +199,13 @@ Order.propTypes = {
         sku: PropTypes.string
       })
     })
-  )
+  ),
+  loading: PropTypes.bool,
+  editId: PropTypes.bool,
+  editQuantity: PropTypes.number,
+  show: PropTypes.bool,
+  message: PropTypes.string,
+  responseHead: PropTypes.string
+
 };
 export default Order;

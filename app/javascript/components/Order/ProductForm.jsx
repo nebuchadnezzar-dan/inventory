@@ -62,7 +62,9 @@ ProductForm.propTypes = {
     })
   ),
   quantity: PropTypes.number,
-  submitForm: PropTypes.func
+  submitForm: PropTypes.func,
+  quantity: PropTypes.number,
+  productId: PropTypes.number,
 }
 
 export default ProductForm

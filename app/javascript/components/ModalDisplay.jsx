@@ -1,5 +1,6 @@
 import React from 'react'
 import {Modal, Badge, Button} from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 const ModalDisplay = ({show, responseHead, message, onHide}) => (
   <Modal show={show} onHide={onHide}>
@@ -14,5 +15,12 @@ const ModalDisplay = ({show, responseHead, message, onHide}) => (
     </Modal.Footer>
   </Modal>
 )
+
+ModalDisplay.propTypes = {
+  show: PropTypes.bool,
+  responseHead: PropTypes.string,
+  message: PropTypes.string,
+  onHide: PropTypes.func
+}
 
 export default ModalDisplay
