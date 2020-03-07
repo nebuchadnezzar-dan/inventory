@@ -8,7 +8,7 @@ class StocksController < AdminController
     respond_to do |format|
       if @stock.save
         format.html { redirect_to warehouse_path(@warehouse), notic: 'Stock was successfully added' }
-        format.json { render json: { product: @stock.product.as_json(only: %i[id name]).merge(count: @warehouse.inventory_count(@stock.product).as_json) } }
+        format.json { render json: {  product: ProductSerializer.new(@stock.product, warehouse: @warehouse) } }
       end
     end
   end

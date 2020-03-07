@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Show the order page', type: :system do
-  it 'shows all order information and order items associated with it' do
+  it 'shows all order information and order items associated with it', :js do
     sign_in_as_user
     product = create(:product, sku: 'CAS-012', name: 'Casio Watch')
     warehouse = create(:warehouse, city: 'City', province: 'Province', street: 'Street')
@@ -13,6 +13,8 @@ RSpec.describe 'Show the order page', type: :system do
     expect(page).to have_attribute_of('full_address', record: order, value: order.warehouse.full_address)
     expect(page).to have_attribute_of('product_name', record: order.order_items.first, value: 'Casio Watch')
     expect(page).to have_attribute_of('quantity', record: order.order_items.first, value: 3)
+    expect(page).to have_buttons_of('&#10006;')
+    expect(page).to have_buttons_of('&#10004;')
     expect(page).to have_back_button
   end
 
@@ -57,6 +59,10 @@ RSpec.describe 'Show the order page', type: :system do
 
   def submit_form
     page.find("#order_item_submit").click
+  end
+
+  def have_buttons_of(name)
+    # within
   end
 
 end

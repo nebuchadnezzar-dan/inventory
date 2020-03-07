@@ -8,13 +8,13 @@ import DynamicTable from '../Table/DynamicTable'
 import Search from './Search'
 import ModalDisplay from '../ModalDisplay'
 
-const mergeObject = (arr1, arr2) => _.mapKeys(_([...arr1, ...arr2]).groupBy('id').map((g) => _.mergeWith({}, ...g, (obj, src) => _.isArray(obj) ? obj.concat(src) : undefined)).value(), item => item.id)
+// const mergeObject = (arr1, arr2) => _.mapKeys(_([...arr1, ...arr2]).groupBy('id').map((g) => _.mergeWith({}, ...g, (obj, src) => _.isArray(obj) ? obj.concat(src) : undefined)).value(), item => item.id)
 
 class Warehouse extends Component {
   constructor(props){
     super(props)
     this.state = {
-      products: mergeObject(this.props.products, this.props.counts) ,
+      products: _.mapKeys(props.products, item => item.id),
       search:'',
       loading: false,
       add: false,
@@ -60,9 +60,9 @@ class Warehouse extends Component {
         }
       );
       if (status === 200) {
-        // console.log(data)
+        // console.log(data.product)
         // return null
-        // const newData = { ...data.product, count: data.count }
+        // const newData = { ...data.product, inventory_count: data.count }
         this.setState(({ products }) => ({
           products: {...products, [data.product.id]: data.product },
           message: "Successfully created order item.",
@@ -85,10 +85,11 @@ class Warehouse extends Component {
 
 
   render(){
+    console.log(this.props.products)
     const tableBody = _.map(this.state.products, product => (
       <tr key={product.id}>
         <td>{product.name}</td>
-        <td>{product.count}</td>
+        <td>{product.inventory_count}</td>
         <td>
           { this.state.add && this.state.addId === product.id ? (
             <InputGroup size="sm" className="mb-3">

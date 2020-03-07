@@ -163,9 +163,9 @@ class Order extends Component {
         orderItem => orderItem.id && (
             <tr key={orderItem.id}>
               <th scope="row">{orderItem.product.sku}</th>
-              <td>{orderItem.product.name}</td>
-              <td>{(this.state.edit && orderItem.id === this.state.editId) ? <Form.Control type="number" value={this.state.editQuantity} onChange={e=>this.setState({editQuantity: e.target.value})} /> : orderItem.quantity}</td>
-              <td>{this.buttonHandler(orderItem.id, orderItem.quantity, orderItem.product.id)}</td>
+              <td id={`order--${orderItem.id}_product_name`} >{orderItem.product.name}</td>
+              <td id={`order--${orderItem.id}_quantity`} >{(this.state.edit && orderItem.id === this.state.editId) ? <Form.Control type="number" value={this.state.editQuantity} onChange={e=>this.setState({editQuantity: e.target.value})} /> : orderItem.quantity}</td>
+              <td id={`order--${orderItem.id}_actions`}>{this.buttonHandler(orderItem.id, orderItem.quantity, orderItem.product.id)}</td>
             </tr>
           )
         )
