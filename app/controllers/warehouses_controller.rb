@@ -1,12 +1,14 @@
 class WarehousesController < AdminController
-  before_action :assign_warehouse, only: %i[show edit update destroy]
+  before_action :assign_warehouse, only: %i[show edit update destroy search]
+  before_action :product_search, only: %i[show search]
 
   def index
     @warehouses = Warehouse.all
   end
     
   def show
-    @stock = @warehouse.stocks.build
+    @stock = @warehouse.stocks.new
+    # @products = @products_search
   end
 
   def new
@@ -19,6 +21,7 @@ class WarehousesController < AdminController
     @warehouse = Warehouse.new(warehouse_params)
 
     if @warehouse.save
+      flash.notice = 'Successfully created a warehouse!'
       redirect_to warehouse_path(@warehouse)
     else
       render :new
@@ -38,8 +41,19 @@ class WarehousesController < AdminController
   def destroy
     @warehouse.destroy
     respond_to do |format|
-      format.html { redirect_to warehouses_url, notice: 'Warehouse was successfully deleted.' }
+      format.html { redirect_to warehouses_url, notice: "Warehouse #{@warehouse.id} was successfully deleted." }
     end    
+  end
+
+  def search
+    respond_to do |format|
+      format.html { redirect_to action: :show, search: params[:search] }
+      format.json { render json: { 
+          products: @products.as_json(
+          only: %i[id name]
+          ),
+          counts: @products.map { |product| {id: product.id, count: @warehouse.inventory_count(product)} } } }
+    end
   end
 
   private
@@ -50,6 +64,16 @@ class WarehousesController < AdminController
   
   def warehouse_params
     params.require(:warehouse).permit(:street, :city, :province)
+  end
+
+  def product_search
+    # @products = Product.all
+    if params[:search].blank?
+      @products = Product.all
+    else
+      @parameter = params[:search].downcase
+      @products = Product.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
+    end
   end
 
 end

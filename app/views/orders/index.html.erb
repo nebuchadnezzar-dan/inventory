@@ -1,39 +1,11 @@
-<h1>Orders</h1>
 
 <div class="container">
   <div class="row">
-    <table class="table table-striped text-center">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Customer Name</th>
-          <th scope="col">Warehouse</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @orders.each do |order| %>
-          <tr>
-            <th scope="row"><%= order.id %></th>
-            <td><%= order.customer_name %></td>
-            <td><%= order.warehouse.province %></td>
-            <td>
-              <%= link_to '&#128065;'.html_safe, order_path(order), class: 'btn btn-success' %>
-              <%= link_to '&#9998;'.html_safe, edit_order_path(order), class: 'btn btn-primary' %>
-              <%= link_to '&#128465;'.html_safe, order_path(order), 
-                                        method: :delete, 
-                                        data: { confirm: 'Are you sure?' }, 
-                                        class: 'btn btn-danger' %>
-            </td>
-          </tr>
-
-        <% end %>
-      </tbody>
-    </table>  
+  <%=  render 'shared/table', headers: %w[Warehouse Customer\ Name ], records: @orders, title: 'order', route: ->(id) { order_path(id) }, edit_route: ->(id) { edit_order_path(id) }, color: 'danger' %> 
   </div>
 
   <div class="row">
-    <%= link_to 'New Order', new_order_path, class: 'btn btn-primary' %>
+    <%= link_to 'New Order', new_order_path, class: 'btn btn-danger' %>
   </div>
 </div>
 

@@ -1,16 +1,75 @@
-<h1>WELCOME TO Warehouse</h1>
 
 <div class="container">
   <dl class="row">
     <dt class="col-sm-2">Street</dt>
-    <dd class="col-sm-10"><%= @warehouse.street %></dd>
+    <dd class="col-sm-10" id=<%= "warehouse--#{@warehouse.id}_street" %>><%= @warehouse.street %></dd>
 
     <dt class="col-sm-2">City</dt>
-    <dd class="col-sm-10"><%= @warehouse.city %></dd>
+    <dd class="col-sm-10" id=<%= "warehouse--#{@warehouse.id}_city" %>><%= @warehouse.city %></dd>
 
     <dt class="col-sm-2">Province</dt>
-    <dd class="col-sm-10"><%= @warehouse.province %></dd>
+    <dd class="col-sm-10" id=<%= "warehouse--#{@warehouse.id}_province" %>><%= @warehouse.province %></dd>
   </dl>
+  
+  <!-- <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search products" label="Search products" describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" id="button-addon2">Search!</button>
+        </div>
+      </div>      
+    </div>
+  </div> -->
+
+  <!-- <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <%= form_tag(warehouse_search_path(@warehouse), method: 'get',   
+          class: 'navbar-form navbar-left') do %>  
+        <div class="input-group">  
+          <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+          <div class="input-group-btn">  
+            <%= button_tag "Search", class: 'btn btn-primary', name: nil%>  
+          </div>  
+        </div>  
+      <% end %>
+    </div>
+  </div>
+
+  <hr/> -->
+  <%= react_component 'Warehouse/Warehouse', 
+  {
+    id: @warehouse.id,
+    products: @warehouse.products.map { |product| ProductSerializer.new(product, warehouse: @warehouse) }
+  } %>
+  <!-- merge dito pre -->
+  <!-- <div class="row">
+    <table class="table table-sm table-light text-center table-striped table-borderless">
+      <thead class="text-white">
+        <tr class="bg-primary">
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td id=<%= "warehouse--#{product.id}_product_name" %> ><%= product.name %> </td>
+            <td id=<%= "warehouse--#{@warehouse.id}_inventory_count" %> ><%= @warehouse.inventory_count(product) %> </td>
+            <td>
+              <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                  <%= render 'stocks/form', stock: @stock, warehouse: @warehouse, product: product.id%> 
+                </div>
+              </div>
+            </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>   -->
+
   <div class="row">
     <%= link_to 'Back', warehouses_path, class: 'btn btn-primary' %>
   </div>
@@ -21,26 +80,3 @@
             warehouse: @warehouse,
             products: @products %>
 <%# <%= render 'shared/add_stock', stock: @stocks, products: @products, form_action: warehouse_stocks_path(@warehouse)            %>
-
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @warehouse.products.each do |product| %>
-        <tr>
-          <td><%= product.name %> </td>
-          <td><%= @warehouse.inventory_count(product) %> </td>
-          <td>
-            <%= render 'stocks/form', stock: @stock, warehouse: @warehouse, product: product.id%>      
-          </td>
-        </tr>
-      <%end%>
-    </tbody>
-
-  </table>

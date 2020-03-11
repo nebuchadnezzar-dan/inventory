@@ -1,23 +1,34 @@
-<h1>WELCOME TO SHOW</h1>
 
 <div class="container">
   <dl class="row">
     <dt class="col-sm-2">Name</dt>
-    <dd class="col-sm-10"><%= @order.customer_name %></dd>
+    <dd class="col-sm-10" id=<%= "order--#{@order.id}_customer_name" %> ><%= @order.customer_name %></dd>
 
     <dt class="col-sm-2">Warehouse</dt>
-    <dd class="col-sm-10"><%= "#{@order.warehouse.province}, #{@order.warehouse.city}, #{@order.warehouse.street}" %></dd>
+    <dd class="col-sm-10" id=<%= "order--#{@order.id}_full_address" %> ><%= "#{@order.warehouse.full_address}" %></dd>
   </dl>
 </div>
 
 <div class="container">
-  <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products, form_action: order_order_items_path(@order) %>
-  <hr/>
-
-  <h4>Orders</h4>
-  <table class="table table-sm">
-    <thead>
-      <tr>
+  <!-- <%= render 'order_items/form', order: @order, order_item: @order_item, products: @products, form_action: order_order_items_path(@order) %> -->
+  <%= react_component "Order/Order",
+      {
+        id: @order.id,
+        order_items: @order.order_items.as_json(
+          only: %i[id quantity],
+          include: {
+            product: {
+              only: %i[id sku name]
+            }
+          }
+        ),
+        products: @products.as_json(
+          only: %i[id name]
+        )
+      } %>
+  <!-- <table class="table table-sm table table-light table-striped table-borderless">
+    <thead class="text-white">
+      <tr class="bg-danger">
         <th scope="col">SKU</th>
         <th scope="col">Product Name</th>
         <th scope="col">Quantity</th>
@@ -29,8 +40,8 @@
         <% next if order_item.new_record? %>
           <tr>
             <th scope="row"><%=order_item.product.sku %></th>
-            <td><%=order_item.product.name %></td>
-            <td><%=order_item.quantity %></td>
+            <td id=<%= "order--#{order_item.id}_product_name" %> ><%=order_item.product.name %></td>
+            <td id=<%= "order--#{order_item.id}_quantity" %> ><%=order_item.quantity %></td>
             <td>
               <%= link_to '&#9998;'.html_safe,  edit_order_order_item_path(@order, order_item), class: 'btn btn-primary' %>
               <%= link_to '&#128465;'.html_safe, order_order_item_path(@order, order_item), 
@@ -41,9 +52,9 @@
           </tr>
       <% end %>
     </tbody>
-  </table> 
+  </table>  -->
 
-  <%= link_to 'Back', orders_path, class: 'btn btn-primary' %> 
+  <%= link_to 'Back', orders_path, class: 'btn btn-danger' %> 
 </div>
 
 

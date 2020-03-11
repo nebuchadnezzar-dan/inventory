@@ -1,33 +1,8 @@
-<h1>Warehouses</h1>
+
 
 <div class="container">
   <div class="row">
-    <table class="table table-striped text-center">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Address</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @warehouses.each do |warehouse| %>
-          <tr>
-            <th scope="row"><%= warehouse.id %></th>
-            <td id= <%= "warehouse--#{warehouse.id}__address" %> ><%= warehouse.full_address %></td>
-            <td id= <%= "warehouse--#{warehouse.id}__actions" %>>
-              <%= link_to "\u{1F441}", warehouse_path(warehouse), class: 'btn btn-success' %>
-              <%= link_to "\u{270E}", edit_warehouse_path(warehouse), class: 'btn btn-primary' %>
-              <%= link_to "\u{1F5D1}", warehouse_path(warehouse), 
-                                        method: :delete, 
-                                        data: { confirm: 'Are you sure?' }, 
-                                        class: 'btn btn-danger' %>
-            </td>
-          </tr>
-
-        <% end %>
-      </tbody>
-    </table>  
+  <%=  render 'shared/table', headers: %w[Street City Province], records: @warehouses, title: 'warehouse', route: ->(id) { warehouse_path(id) }, edit_route: ->(id) { edit_warehouse_path(id) }, color: 'primary' %> 
   </div>
 
   <div class="row">

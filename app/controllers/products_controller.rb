@@ -4,20 +4,13 @@ class ProductsController < AdminController
     @products = Product.all
   end
 
-  def show
+  def show; end
 
-  end
+  def edit; end
 
-  def edit
+  def destroy; end
 
-  end
-
-  def destroy
-
-  end
-
-  def show
-  end
+  def show; end
 
   def new
     @product = Product.new

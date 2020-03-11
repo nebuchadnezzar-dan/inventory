@@ -13,12 +13,11 @@ RSpec.describe 'Index of all products', type: :system do
     expect(page).to have_products_with(count: 5)
     expect(page).to have_table_headers_with(text: 'SKU')
     expect(page).to have_table_headers_with(text: 'Name')
-    expect(page).to have_table_headers_with(text: 'Updated At')
     expect(page).to have_column_for('sku', value: 'SKU-001', record: product)
     expect(page).to have_column_for('name', value: 'Kobes', record: product)
-    expect(page).to have_actions_of('show', path: "/products/#{product.id}", record: product)
-    expect(page).to have_actions_of('edit', path: "/products/#{product.id}/edit", record: product)
-    expect(page).to have_actions_of('delete', path: "/products/#{product.id}", record: product)
+    expect(page).to have_actions_of("\u{1F441}", path: "/products/#{product.id}", record: product)
+    expect(page).to have_actions_of("\u{270E}", path: "/products/#{product.id}/edit", record: product)
+    expect(page).to have_actions_of("\u{1F5D1}", path: "/products/#{product.id}", record: product)
     expect(page).to have_a_new_products_button
 
     page.find("table tbody tr#product--#{product.id} td#product--#{product.id}_actions .delete").click

@@ -10,16 +10,38 @@ class OrderItemsController < ApplicationController
     else
       @order_item.quantity += order_item_params[:quantity].to_i
     end
-    @order_item.save!
-    redirect_to order_path(@order)
+    respond_to do |format|
+      if @order_item.save
+        format.html { redirect_to order_path(@order) }
+        format.json { render json: { 
+          order_items: @order_item.as_json(
+            only: %i[id quantity],
+            include: {
+              product: {
+                only: %i[id sku name]
+              }
+            }
+          ) } }
+      end
+    end
+    # @order_item.save!
   end
 
   def edit;  end
 
   def update
     respond_to do |format|
-      if @order_item.update(order_items_params)
+      if @order_item.update(order_item_params)
         format.html { redirect_to order_path(@order), notice: 'Order Item was successfully updated.' }
+        format.json { render json: { 
+          order_items: @order_item.as_json(
+            only: %i[id quantity],
+            include: {
+              product: {
+                only: %i[id sku name]
+              }
+            }
+          ) } }
       else
         format.html { render :edit }
       end
@@ -30,6 +52,8 @@ class OrderItemsController < ApplicationController
     @order_item.destroy
     respond_to do |format|
       format.html { redirect_to order_path(@order), notice: 'Order Item was successfully deleted.' }
+      format.json { render json: { id: @order_item.id } }
+      # render json: { id: @order_item.id }
     end    
   end
 

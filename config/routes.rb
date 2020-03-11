@@ -2,6 +2,9 @@
 
 Rails.application.routes.draw do
   devise_for :users
+
+  get 'warehouses/:id/search', to: 'warehouses#search', as: 'warehouse_search'
+
   resources :products, only: %i[index show edit destroy show new create edit update]
   resources :warehouses, only: %i[index show edit create new update destroy] do
     resources :stocks, only: %i[create update]
