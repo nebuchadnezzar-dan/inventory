@@ -131,7 +131,7 @@ class Order extends Component {
   buttonHandler = (id, qty, productId) => (
     (this.state.edit && +this.state.editId === +id ) ? (
       <ButtonGroup>
-        <Button variant="danger" size="sm" onClick={this.editHandler.bind(null, false, '')}>&#10006;</Button>
+        <Button variant="danger" size="sm"  onClick={this.editHandler.bind(null, false, '')}>&#10006;</Button>
         <Button
           variant="success"
           size="sm"
@@ -142,11 +142,12 @@ class Order extends Component {
       </ButtonGroup>
     ) : (
       <ButtonGroup>
-        <Button variant="primary" size="sm" onClick={this.editHandler.bind(null, true, id, qty)}>&#9998;</Button>
+        <Button variant="primary" size="sm" id={`order--${id}_edit`} onClick={this.editHandler.bind(null, true, id, qty)}>&#9998;</Button>
         <Button
           variant="danger"
           size="sm"
           onClick={this.onConfirm.bind(null, id)}
+          id={`order--${id}_delete`}
         >
           &#128465;
         </Button>
@@ -161,7 +162,7 @@ class Order extends Component {
     const tableBody = _.map(
       this.state.orderItems,
         orderItem => orderItem.id && (
-            <tr key={orderItem.id}>
+            <tr id={`order--${orderItem.id}`} key={orderItem.id}>
               <th scope="row">{orderItem.product.sku}</th>
               <td id={`order--${orderItem.id}_product_name`} >{orderItem.product.name}</td>
               <td id={`order--${orderItem.id}_quantity`} >{(this.state.edit && orderItem.id === this.state.editId) ? <Form.Control type="number" value={this.state.editQuantity} onChange={e=>this.setState({editQuantity: e.target.value})} /> : orderItem.quantity}</td>

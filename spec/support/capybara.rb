@@ -48,3 +48,4 @@ Capybara.register_driver(:chrome_headless) do |app|
       FileUtils.remove_dir(directory) if File.directory?(directory)
     end
   end
+  Capybara.default_max_wait_time = 5
