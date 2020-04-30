@@ -11,6 +11,7 @@ require 'support/factory_bot'
 require 'webdrivers/chromedriver'
 require 'support/capybara'
 require 'support/auth_helper'
+require 'support/capybara_wait_for_ajax'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -74,4 +75,6 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include AuthHelper, type: :system
+  config.include CapybaraWaitForAjax, type: :system
+  # config.include CapybaraWaitForAjax, type: :system
 end

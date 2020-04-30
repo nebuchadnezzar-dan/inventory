@@ -19,6 +19,7 @@ RSpec.describe 'Show the order page', type: :system do
   end
 
   it 'Deletes an order Item', :js do
+    driven_by(:selenium)
     sign_in_as_user
     product = create(:product, sku: 'PHO-001', name: 'Some Phone')
     warehouse = create(:warehouse, city: 'City', province: 'Province', street: 'Street')
@@ -27,15 +28,25 @@ RSpec.describe 'Show the order page', type: :system do
 
     visit "/orders/#{order.id}"
 
+    # sleep 1
+
     click_button("order--#{order.order_items.first.id}_delete")
 
-    click_button('button', text: 'Yes')
+    page.find('button', text: 'Yes').click
+
+    # wait_for_ajax
+
+    byebug
+
+    # click_button('button', text: 'Yes')
+
+    # wait_for_ajax
 
     expect(page).to have_css('.modal-content .badge-success')
 
     # expect(page).to have_css('.modal-body', text: "Cannot read property 'content' of null")
 
-    expect(page).not_to have_column_of('quantity', record: order.order_items.first, value: 3)    
+    # expect(page).not_to have_column_of('quantity', record: order.order_items.first, value: 3)    
 
   end
   # describe 'Create new Order Items' do

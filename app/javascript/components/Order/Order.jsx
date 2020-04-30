@@ -29,9 +29,47 @@ class Order extends Component {
   }
   
   deleteOrderItem = async orderItemId => {
+    // console.log(orderItemId)
+    // console.log(axios)
+    // try {
+    //   this.setState({loading: true})
+    //   // let response = await axios.get('http://dummy.restapiexample.com/api/v1/employees')
+    //   let response = await fetch(`http://localhost:3000/orders/${this.state.id}/order_items/${orderItemId}`, {
+    //     method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+    //     mode: 'cors', // no-cors, *cors, same-origin
+    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //     credentials: 'same-origin', // include, *same-origin, omit
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json',
+    //       'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+    //     },
+    //     redirect: 'follow', // manual, *follow, error
+    //     referrerPolicy: 'no-referrer', // no-referrer, *client
+    //     // body: JSON.stringify(data) // body data type must match "Content-Type" header
+    //   })
+    //   const data = await response.json()
+    //   this.setState(({ orderItems }) => ({
+    //     orderItems: _.omitBy(
+    //       orderItems,
+    //       orderItem => orderItem.id === data.id
+    //     ),
+    //     message: "Successfully deleted order item.",
+    //     variant: "danger",
+    //     loading: false,
+    //     show: true,
+    //     responseHead: 'success'
+    //   }));
+    //   console.log(data)
+    // }catch(error) {
+    //   this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
+    // }
+
+    // return
+
     try {
       this.setState({loading: true})
-      let { data, status } = await axios.delete(`/orders/${this.state.id}/order_items/${orderItemId}`);
+      let {data, status} = await axios.delete(`/orders/${this.state.id}/order_items/${orderItemId}`);
       if (status === 200) {
         this.setState(({ orderItems }) => ({
           orderItems: _.omitBy(
@@ -46,6 +84,7 @@ class Order extends Component {
         }));
       }
     } catch (error) {
+      console.log('[error]', error)
       this.setState({loading:false, show:true, message: error.message, responseHead: 'error'})
     }
   }
@@ -177,7 +216,8 @@ class Order extends Component {
       </DynamicTable>)
 
     const modal = <ModalDisplay show={this.state.show} onHide={this.handleClose} responseHead={this.state.responseHead} message={this.state.message} />
-
+      console.log('[props]', this.props)
+      console.log('[count]', window.pendingRequestCount)
     return (
       <>
         <ProductForm products={this.props.products} submitForm={this.createOrderItem} />

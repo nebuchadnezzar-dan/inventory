@@ -3,7 +3,10 @@ class OrdersController < AdminController
   before_action :set_dependencies, only: %i[new edit show update create]
 
   def index
-    @orders = Order.all
+    respond_to do |format| 
+      format.html { @orders = Order.all }
+      format.json { render json: { orders: Order.all } }
+    end
   end
 
   def new

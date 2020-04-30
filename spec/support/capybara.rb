@@ -3,6 +3,11 @@
 # https://sites.google.com/a/chromium.org/chromedriver/capabilities
 # https://peter.sh/experiments/chromium-command-line-switches/#silent-launch
 #
+
+# Capybara.app_host = "http://localhost:3000"
+
+# Capybara.default_driver = :selenium 
+
 Capybara.register_driver(:chrome_headless) do |app|
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
       'goog:chromeOptions' => {
@@ -20,6 +25,16 @@ Capybara.register_driver(:chrome_headless) do |app|
   Capybara.register_driver(:chrome) do |app|
     Capybara::Selenium::Driver.new(app, browser: :chrome)
   end
+  Capybara.javascript_driver = :selenium_chrome_headless
+  # Capybara.app_host = "http://localhost:3000"
+  # Capybara.server_host = "localhost"
+  # Capybara.server_port = "3000"
+
+  Capybara.configure do |config|
+    Capybara.default_max_wait_time = 5
+    Capybara.default_driver = :selenium 
+  end
+
   # Configure rspec to use drivers.
   RSpec.configure do |config|
     # Use rack_test for system tests without JS
@@ -48,4 +63,3 @@ Capybara.register_driver(:chrome_headless) do |app|
       FileUtils.remove_dir(directory) if File.directory?(directory)
     end
   end
-  Capybara.default_max_wait_time = 5
